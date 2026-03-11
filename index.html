@@ -371,18 +371,18 @@ body { font-family: var(--f-sans); background: var(--off); color: var(--ink); mi
       <span class="logo-name">ExamGuard</span>
       <span class="logo-tag">Proctor</span>
     </div>
-    <h1 class="setup-title">Configure a new<br><em>exam session</em></h1>
+    <h1 class="setup-title">Configure a new<br><em>test session</em></h1>
     <p class="setup-sub">Fill in the details below and click Generate — you'll get a shareable link to send to your candidate.</p>
 
     <div class="card">
       <div class="card-section">
-        <div class="section-label">Candidate & Exam</div>
+        <div class="section-label">Candidate & Test</div>
         <div class="field">
           <label>Candidate name</label>
           <input type="text" id="p-name" placeholder="e.g. Jane Smith" autocomplete="off" />
         </div>
         <div class="field">
-          <label>Google Form URL</label>
+          <label>Test Form URL</label>
           <input type="url" id="p-url" placeholder="https://docs.google.com/forms/d/e/…/viewform" />
         </div>
 
@@ -407,7 +407,7 @@ body { font-family: var(--f-sans); background: var(--off); color: var(--ink); mi
       <div class="card-section">
         <div class="section-label">Email Report — EmailJS</div>
         <div class="field">
-          <label>Your email (receives the report)</label>
+          <label>Might Ventures email (receives the report)</label>
           <input type="email" id="p-email" placeholder="you@example.com" />
         </div>
         <div class="row2">
@@ -457,8 +457,8 @@ body { font-family: var(--f-sans); background: var(--off); color: var(--ink); mi
       </div>
       <div class="modal-note">
         ℹ️ The candidate sees only the exam interface — no config, no settings.
-        The session ends when they click <strong>"I have submitted the form"</strong>.
-        The report is emailed to you automatically at that point.
+        The session ends when they click <strong>"I have submitted the test"</strong>.
+        The report is emailed to Might Ventures automatically at that point.
       </div>
     </div>
   </div>
@@ -474,24 +474,24 @@ body { font-family: var(--f-sans); background: var(--off); color: var(--ink); mi
   <div class="cand-body">
     <div class="cand-card">
       <div class="cand-hero">
-        <h2>Your exam is ready</h2>
-        <p>Open the form, complete it, then click the green button below to end your session.</p>
+        <h2>Your test is ready</h2>
+        <p>Open the test form, complete it, then click the green button below to end your session.</p>
       </div>
       <div class="cand-card-body">
         <button class="open-btn" id="open-form-btn" onclick="openForm()">
-          ↗ &nbsp;Open Exam Form
+          ↗ &nbsp;Open Test Form
         </button>
-        <div class="form-pill" id="form-pill">Form not yet opened</div>
+        <div class="form-pill" id="form-pill">Test form not yet opened</div>
 
         <ul class="rule-list">
           <li>Do not switch tabs or leave this page</li>
           <li>Do not copy or paste text</li>
           <li>Do not minimise this window</li>
-          <li>All activity is logged and reported to your proctor</li>
+          <li>All activity is logged and reported to Might Ventures</li>
         </ul>
 
         <button id="submit-btn" onclick="candidateSubmit()">
-          ✓ &nbsp;I have submitted the form — End session
+          ✓ &nbsp;I have submitted the test — End session
         </button>
 
         <div class="sid-row">
@@ -509,7 +509,7 @@ body { font-family: var(--f-sans); background: var(--off); color: var(--ink); mi
   <div class="vio-title" id="vio-title">Violation detected</div>
   <div class="vio-detail" id="vio-detail"></div>
   <div class="vio-cd" id="vio-cd">5</div>
-  <button class="vio-dismiss" onclick="dismissVio()">I Understand — Return to Exam</button>
+  <button class="vio-dismiss" onclick="dismissVio()">I Understand — Return to Test</button>
 </div>
 
 <!-- ════════ DONE SCREEN ════════ -->
@@ -518,7 +518,7 @@ body { font-family: var(--f-sans); background: var(--off); color: var(--ink); mi
     <div class="done-hero">
       <div class="done-icon">✅</div>
       <h2>Session complete</h2>
-      <p id="done-sub">Your exam has been recorded.</p>
+      <p id="done-sub">Your test session has been recorded.</p>
     </div>
     <div class="done-body">
       <div class="done-stat"><span>Candidate</span><span class="done-val" id="d-name">—</span></div>
@@ -597,9 +597,9 @@ function decodeSession() {
     ejsSvc:    p.get('es') || '',
     ejsTpl:    p.get('et') || '',
     ejsKey:    p.get('ek') || '',
-    tabs:      p.get('ft') !== '0',
-    copy:      p.get('fc') !== '0',
-    keys:      p.get('fk') !== '0',
+    tabs:      p.get('ft') === '1',
+    copy:      p.get('fc') === '1',
+    keys:      p.get('fk') === '1',
     sid:       p.get('s'),
   };
 }
@@ -664,7 +664,7 @@ function startCandidateSession(config) {
   st('c-sid', cfg.sid);
   showScreen('candidate-screen');
   attachListeners();
-  logEv('info', 'Session started', `Candidate: ${cfg.name}`);
+  logEv('info', 'Session started', `Candidate: ${cfg.name} | Test session initiated`);
 }
 
 window.openForm = function() {
@@ -672,20 +672,20 @@ window.openForm = function() {
   window.open(cfg.url, '_blank', 'noopener');
   formOpened = true;
   const pill = $('form-pill');
-  pill.textContent = '✓ Form is open in another tab — complete it there';
+  pill.textContent = '✓ Test form is open in another tab — complete it there';
   pill.className = 'form-pill open';
-  $('open-form-btn').textContent = '↗  Re-open Form';
-  logEv('info', 'Form opened', 'Exam form launched in new tab');
+  $('open-form-btn').textContent = '↗  Re-open Test Form';
+  logEv('info', 'Test form opened', 'Test form launched in new tab');
   // Reveal submit button
   const sb = $('submit-btn');
   sb.style.display = 'flex';
-  // Activate monitoring after 3 s to absorb the new-tab focus loss
-  setTimeout(() => { monitoring = true; lastBlur = Date.now(); }, 3000);
+  // Activate monitoring after 500ms — just enough to absorb the new-tab blur, no more
+  setTimeout(() => { monitoring = true; lastBlur = Date.now(); }, 500);
 };
 
 window.candidateSubmit = function() {
-  endReason = 'Candidate submitted form';
-  logEv('info', 'Session ended by candidate', 'Candidate clicked submit after completing form');
+  endReason = 'Candidate submitted test';
+  logEv('info', 'Session ended by candidate', 'Candidate clicked submit after completing test');
   endSession();
 };
 
@@ -715,8 +715,8 @@ function detachListeners() {
 
 function onUnload(e) {
   if (ended || !monitoring) return;
-  fire('critical', 'Page closed', 'Candidate attempted to close or navigate away');
-  e.preventDefault(); e.returnValue = 'Your exam is still in progress.';
+  fire('critical', 'Page closed', 'Candidate attempted to close or navigate away from test');
+  e.preventDefault(); e.returnValue = 'Your test session is still in progress.';
   return e.returnValue;
 }
 function onVis() {
@@ -793,9 +793,9 @@ function buildDone(elapsed) {
   st('d-by',     endReason || '—');
   st('d-status', status);
   $('d-status').className = 'done-val ' + (status==='CLEAN'?'green':status==='REVIEW'?'amber':'red');
-  st('done-sub', status==='CLEAN' ? 'No violations recorded.' : `${crit} critical · ${warns} warnings`);
+  st('done-sub', status==='CLEAN' ? 'No violations recorded.' : `${crit} critical · ${warns} warnings recorded`);
 
-  let log = `EXAMGUARD SESSION REPORT\n${'─'.repeat(42)}\n`;
+  let log = `MIGHT VENTURES — TEST SESSION REPORT\n${'─'.repeat(42)}\n`;
   log += `Candidate  : ${cfg.name}\nSession ID : ${cfg.sid}\n`;
   log += `Duration   : ${fmtMs(elapsed)}\nStatus     : ${status}\n`;
   log += `Critical   : ${crit}\nWarnings   : ${warns}\n`;
