@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamGuard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --white:    #ffffff;
+  --off:      #fafaf8;
+  --ink:      #111008;
+  --ink2:     #4a4840;
+  --border:   #e8e4dc;
+  --border2:  #d4cfc6;
+  --accent:   #e85d26;
+  --accent-l: #fff3ee;
+  --accent-d: #c44a18;
+  --blue:     #1e50d4;
+  --blue-l:   #eef2fd;
+  --green:    #0e7f4f;
+  --green-l:  #edfaf4;
+  --red:      #cc2929;
+  --red-l:    #fff2f2;
+  --amber:    #b45309;
+  --amber-l:  #fffbf0;
+  --f-serif:  'Instrument Serif', Georgia, serif;
+  --f-sans:   'DM Sans', sans-serif;
+  --f-mono:   'DM Mono', monospace;
+  --r:        10px;
+  --r-lg:     16px;
+  --shadow:   0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 2px 8px rgba(0,0,0,.08), 0 16px 48px rgba(0,0,0,.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body { font-family: var(--f-sans); background: var(--off); color: var(--ink); min-height: 100vh; }
+
+.screen { display: none; }
+.screen.active { display: flex; }
+
+/* ── PROCTOR SETUP ── */
+#proctor-screen {
+  min-height: 100vh;
+  align-items: flex-start; justify-content: center;
+  padding: 3rem 1.5rem 4rem;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, #fff8f5 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, #f0f4ff 0%, transparent 50%),
+    var(--off);
+}
+
+.setup-wrap { width: 100%; max-width: 560px; }
+
+.logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 2.5rem; }
+.logo-mark {
+  width: 40px; height: 40px; background: var(--ink);
+  border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.15rem; flex-shrink: 0;
+}
+.logo-name { font-family: var(--f-serif); font-size: 1.5rem; color: var(--ink); }
+.logo-tag {
+  font-family: var(--f-mono); font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+  background: var(--accent-l); padding: 2px 7px; border-radius: 4px;
+}
+
+.setup-title {
+  font-family: var(--f-serif); font-size: 2rem; line-height: 1.15;
+  color: var(--ink); margin-bottom: 0.4rem; letter-spacing: -0.02em;
+}
+.setup-sub { font-size: 0.9rem; color: var(--ink2); line-height: 1.55; margin-bottom: 2rem; }
+
+.card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 1rem;
+}
+.card-section { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+.card-section:last-child { border-bottom: none; }
+
+.section-label {
+  font-family: var(--f-mono); font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink2);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.field { margin-bottom: 0.85rem; }
+.field:last-child { margin-bottom: 0; }
+.field label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+.field input {
+  width: 100%; padding: 0.6rem 0.85rem;
+  background: var(--off); border: 1.5px solid var(--border);
+  border-radius: var(--r); font-family: var(--f-mono); font-size: 0.83rem;
+  color: var(--ink); outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.field input:focus {
+  border-color: var(--blue); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(30,80,212,.1);
+}
+.field input::placeholder { color: #bbb; }
+.field .hint { font-size: 0.68rem; color: var(--ink2); margin-top: 0.3rem; line-height: 1.4; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+/* toggle */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.55rem 0; border-bottom: 1px solid var(--border); gap: 1rem;
+}
+.toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
+.toggle-row:first-child { padding-top: 0; }
+.toggle-label { font-size: 0.84rem; color: var(--ink); }
+.tog { position: relative; width: 40px; height: 22px; cursor: pointer; flex-shrink: 0; }
+.tog input { opacity: 0; width: 0; height: 0; position: absolute; }
+.tog-rail {
+  position: absolute; inset: 0; background: #d8d4cc;
+  border-radius: 11px; transition: background .2s;
+}
+.tog-rail::before {
+  content: ''; position: absolute; width: 16px; height: 16px;
+  left: 3px; top: 3px; background: white; border-radius: 50%;
+  transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.tog input:checked ~ .tog-rail { background: var(--accent); }
+.tog input:checked ~ .tog-rail::before { transform: translateX(18px); }
+
+.launch-btn {
+  width: 100%; padding: 0.9rem 1.25rem; background: var(--ink); color: var(--white);
+  font-family: var(--f-sans); font-size: 0.95rem; font-weight: 600;
+  border: none; border-radius: var(--r); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .15s, transform .1s;
+}
+.launch-btn:hover { background: #2a2618; }
+.launch-btn:active { transform: scale(.99); }
+
+/* ── SHARE MODAL ── */
+#share-modal {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(17,16,8,.5); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center; padding: 1.5rem;
+}
+#share-modal.show { display: flex; }
+
+.modal-card {
+  background: var(--white); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg); width: 100%; max-width: 520px; overflow: hidden;
+  animation: popIn .25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+
+.modal-head {
+  padding: 1.5rem; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+}
+.modal-head h2 { font-family: var(--f-serif); font-size: 1.4rem; color: var(--ink); }
+.modal-head p { font-size: 0.82rem; color: var(--ink2); margin-top: 0.2rem; line-height: 1.5; }
+.modal-close {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink2); font-size: 1.3rem; padding: 2px; flex-shrink: 0;
+}
+.modal-close:hover { color: var(--ink); }
+.modal-body { padding: 1.5rem; }
+
+.url-box {
+  display: flex; border: 1.5px solid var(--border2);
+  border-radius: var(--r); overflow: hidden; margin-bottom: 1rem;
+}
+#share-url {
+  flex: 1; padding: 0.65rem 0.9rem; background: var(--off);
+  border: none; font-family: var(--f-mono); font-size: 0.72rem;
+  color: var(--ink); outline: none;
+}
+.copy-btn {
+  padding: 0 1rem; background: var(--accent); color: white;
+  border: none; font-family: var(--f-sans); font-size: 0.8rem;
+  font-weight: 600; cursor: pointer; white-space: nowrap; transition: background .15s;
+}
+.copy-btn:hover { background: var(--accent-d); }
+.copy-btn.copied { background: var(--green); }
+
+.session-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+.meta-chip { padding: 0.6rem 0.85rem; background: var(--off); border: 1px solid var(--border); border-radius: var(--r); }
+.meta-chip .lbl { font-size: 0.62rem; font-family: var(--f-mono); color: var(--ink2); text-transform: uppercase; letter-spacing: 0.08em; }
+.meta-chip .val { font-size: 0.84rem; font-weight: 600; color: var(--ink); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.modal-note {
+  font-size: 0.75rem; color: var(--ink2); line-height: 1.55;
+  padding: 0.75rem; background: var(--blue-l);
+  border-radius: var(--r); border: 1px solid #c8d8fb;
+}
+
+/* ── CANDIDATE SCREEN ── */
+#candidate-screen { min-height: 100vh; flex-direction: column; background: var(--white); }
+
+.cand-topbar {
+  height: 52px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 1.5rem; gap: 1rem;
+  background: var(--white); position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 1px 0 var(--border);
+}
+.cand-brand { font-family: var(--f-serif); font-size: 1rem; color: var(--ink); }
+.live-indicator {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--f-mono); font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--red); padding: 3px 8px;
+  background: var(--red-l); border-radius: 20px; border: 1px solid #fcc;
+}
+.live-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: blink 1.4s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+.cand-name-bar {
+  flex: 1; text-align: center; font-size: 0.85rem; font-weight: 500;
+  color: var(--ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+
+.cand-body {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 2.5rem 1.5rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, #fff8f5 0%, transparent 60%),
+    var(--off);
+}
+.cand-card {
+  width: 100%; max-width: 500px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.cand-hero {
+  padding: 2rem 2rem 1.5rem;
+  background: linear-gradient(135deg, var(--ink) 0%, #2a2618 100%);
+  color: white;
+}
+.cand-hero h2 { font-family: var(--f-serif); font-size: 1.6rem; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+.cand-hero p { font-size: 0.83rem; opacity: 0.65; line-height: 1.5; }
+.cand-card-body { padding: 1.75rem; }
+
+.open-btn {
+  width: 100%; padding: 0.9rem; background: var(--accent); color: white;
+  font-family: var(--f-sans); font-size: 0.95rem; font-weight: 600;
+  border: none; border-radius: var(--r); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .15s; margin-bottom: 0.75rem;
+}
+.open-btn:hover { background: var(--accent-d); }
+
+.form-pill {
+  padding: 0.5rem 0.85rem; border-radius: 8px;
+  font-family: var(--f-mono); font-size: 0.72rem;
+  background: var(--off); border: 1px solid var(--border);
+  color: var(--ink2); text-align: center; transition: all .25s; margin-bottom: 1.25rem;
+}
+.form-pill.open { background: var(--green-l); border-color: var(--green); color: var(--green); }
+
+.rule-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
+.rule-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.8rem; color: var(--ink2); line-height: 1.45;
+}
+.rule-list li::before {
+  content: ''; width: 5px; height: 5px; background: var(--border2);
+  border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+}
+
+#submit-btn {
+  display: none; width: 100%; padding: 0.9rem; background: var(--green); color: white;
+  font-family: var(--f-sans); font-size: 0.95rem; font-weight: 600;
+  border: none; border-radius: var(--r); cursor: pointer;
+  align-items: center; justify-content: center; gap: 8px;
+  transition: background .15s; animation: fadeUp .4s ease;
+}
+#submit-btn:hover { background: #0a6640; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+.sid-row {
+  margin-top: 1.25rem; padding: 0.5rem 0.75rem;
+  background: var(--off); border: 1px solid var(--border); border-radius: 6px;
+  font-family: var(--f-mono); font-size: 0.62rem; color: var(--ink2);
+  display: flex; justify-content: space-between;
+}
+
+/* ── VIOLATION OVERLAY ── */
+#vio-overlay {
+  display: none; position: fixed; inset: 0; z-index: 900;
+  flex-direction: column; align-items: center; justify-content: center;
+  background: var(--accent); color: white; text-align: center; padding: 2rem;
+}
+.vio-badge {
+  font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.18em;
+  text-transform: uppercase; opacity: .7; margin-bottom: 1rem;
+  padding: 4px 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 20px;
+}
+.vio-title {
+  font-family: var(--f-serif); font-size: 2rem; line-height: 1.2;
+  max-width: 400px; margin-bottom: 0.5rem; letter-spacing: -0.02em;
+}
+.vio-detail { font-size: 0.85rem; opacity: .75; max-width: 380px; line-height: 1.5; margin-bottom: 1.75rem; }
+.vio-cd { font-family: var(--f-mono); font-size: 3rem; font-weight: 500; opacity: .8; margin-bottom: 1.25rem; }
+.vio-dismiss {
+  padding: 0.65rem 2rem; background: rgba(255,255,255,.18);
+  backdrop-filter: blur(4px); color: white;
+  border: 1.5px solid rgba(255,255,255,.4); border-radius: var(--r);
+  font-family: var(--f-sans); font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: background .15s;
+}
+.vio-dismiss:hover { background: rgba(255,255,255,.3); }
+
+/* ── DONE SCREEN ── */
+#done-screen {
+  min-height: 100vh; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, var(--green-l) 0%, transparent 50%), var(--off);
+}
+.done-card {
+  width: 100%; max-width: 420px; background: var(--white);
+  border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.done-hero { padding: 2rem; background: var(--green); color: white; text-align: center; }
+.done-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.done-hero h2 { font-family: var(--f-serif); font-size: 1.5rem; margin-bottom: 0.2rem; }
+.done-hero p { font-size: 0.8rem; opacity: .75; }
+.done-body { padding: 1.5rem; }
+.done-stat {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.55rem 0; border-bottom: 1px solid var(--border);
+  font-size: 0.84rem; color: var(--ink2);
+}
+.done-stat:last-of-type { border-bottom: none; }
+.done-val { font-family: var(--f-mono); font-weight: 500; color: var(--ink); font-size: 0.82rem; }
+.done-val.red   { color: var(--red); }
+.done-val.green { color: var(--green); }
+.done-val.amber { color: var(--amber); }
+
+.send-status {
+  margin-top: 1rem; padding: 0.65rem 0.85rem; border-radius: var(--r);
+  font-family: var(--f-mono); font-size: 0.7rem; text-align: center; display: none; line-height: 1.5;
+}
+.send-status.sending { display:block; background:var(--amber-l); color:var(--amber); border:1px solid #fcd34d; }
+.send-status.sent    { display:block; background:var(--green-l); color:var(--green); border:1px solid #6ee7b7; }
+.send-status.failed  { display:block; background:var(--red-l);   color:var(--red);   border:1px solid #fca5a5; }
+.resend-btn {
+  width: 100%; margin-top: 0.65rem; padding: 0.7rem;
+  background: var(--off); color: var(--ink);
+  font-family: var(--f-sans); font-size: 0.82rem; font-weight: 500;
+  border: 1.5px solid var(--border2); border-radius: var(--r); cursor: pointer;
+  transition: background .15s;
+}
+.resend-btn:hover { background: var(--border); }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: white; font-family: var(--f-sans); font-size: 0.82rem;
+  padding: 0.55rem 1.25rem; border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2); white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 999;
+}
+#toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ════════ PROCTOR SETUP ════════ -->
+<div id="proctor-screen" class="screen active">
+  <div class="setup-wrap">
+    <div class="logo-row">
+      <div class="logo-mark">🛡</div>
+      <span class="logo-name">ExamGuard</span>
+      <span class="logo-tag">Proctor</span>
+    </div>
+    <h1 class="setup-title">Configure a new<br><em>exam session</em></h1>
+    <p class="setup-sub">Fill in the details below and click Generate — you'll get a shareable link to send to your candidate.</p>
+
+    <div class="card">
+      <div class="card-section">
+        <div class="section-label">Candidate & Exam</div>
+        <div class="field">
+          <label>Candidate name</label>
+          <input type="text" id="p-name" placeholder="e.g. Jane Smith" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label>Google Form URL</label>
+          <input type="url" id="p-url" placeholder="https://docs.google.com/forms/d/e/…/viewform" />
+        </div>
+
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Monitoring</div>
+        <div class="toggle-row">
+          <span class="toggle-label">Detect tab switching & page leave</span>
+          <label class="tog"><input type="checkbox" id="t-tabs" checked /><span class="tog-rail"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Block copy / paste / cut</span>
+          <label class="tog"><input type="checkbox" id="t-copy" checked /><span class="tog-rail"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Block dev shortcuts (F12, Ctrl+U…)</span>
+          <label class="tog"><input type="checkbox" id="t-keys" checked /><span class="tog-rail"></span></label>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Email Report — EmailJS</div>
+        <div class="field">
+          <label>Your email (receives the report)</label>
+          <input type="email" id="p-email" placeholder="you@example.com" />
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>EmailJS Service ID</label>
+            <input type="text" id="p-svc" placeholder="service_xxxxxxx" />
+          </div>
+          <div class="field">
+            <label>EmailJS Template ID</label>
+            <input type="text" id="p-tpl" placeholder="template_xxxxxxx" />
+          </div>
+        </div>
+        <div class="field">
+          <label>EmailJS Public Key</label>
+          <input type="text" id="p-key" placeholder="your_public_key" />
+          <div class="hint">Get these free at emailjs.com — leave blank to skip email.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <button class="launch-btn" onclick="createSession()">Generate candidate link →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SHARE MODAL ════════ -->
+<div id="share-modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h2>Session ready ✓</h2>
+        <p>Copy this link and send it to your candidate. It contains all session settings.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="url-box">
+        <input type="text" id="share-url" readonly />
+        <button class="copy-btn" id="copy-btn" onclick="copyLink()">Copy</button>
+      </div>
+      <div class="session-meta">
+        <div class="meta-chip"><div class="lbl">Candidate</div><div class="val" id="m-name">—</div></div>
+        <div class="meta-chip"><div class="lbl">Session ID</div><div class="val" id="m-sid">—</div></div>
+        <div class="meta-chip"><div class="lbl">Report to</div><div class="val" id="m-email">—</div></div>
+        <div class="meta-chip"><div class="lbl">Ends when</div><div class="val">Candidate submits</div></div>
+      </div>
+      <div class="modal-note">
+        ℹ️ The candidate sees only the exam interface — no config, no settings.
+        The session ends when they click <strong>"I have submitted the form"</strong>.
+        The report is emailed to you automatically at that point.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ CANDIDATE SCREEN ════════ -->
+<div id="candidate-screen" class="screen">
+  <div class="cand-topbar">
+    <div class="cand-brand">🛡 ExamGuard</div>
+    <div class="live-indicator"><div class="live-dot"></div> Live</div>
+    <div class="cand-name-bar" id="c-name-bar">—</div>
+  </div>
+  <div class="cand-body">
+    <div class="cand-card">
+      <div class="cand-hero">
+        <h2>Your exam is ready</h2>
+        <p>Open the form, complete it, then click the green button below to end your session.</p>
+      </div>
+      <div class="cand-card-body">
+        <button class="open-btn" id="open-form-btn" onclick="openForm()">
+          ↗ &nbsp;Open Exam Form
+        </button>
+        <div class="form-pill" id="form-pill">Form not yet opened</div>
+
+        <ul class="rule-list">
+          <li>Do not switch tabs or leave this page</li>
+          <li>Do not copy or paste text</li>
+          <li>Do not minimise this window</li>
+          <li>All activity is logged and reported to your proctor</li>
+        </ul>
+
+        <button id="submit-btn" onclick="candidateSubmit()">
+          ✓ &nbsp;I have submitted the form — End session
+        </button>
+
+        <div class="sid-row">
+          <span>Session ID</span>
+          <span id="c-sid">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ VIOLATION OVERLAY ════════ -->
+<div id="vio-overlay">
+  <div class="vio-badge">⚠ Integrity Alert</div>
+  <div class="vio-title" id="vio-title">Violation detected</div>
+  <div class="vio-detail" id="vio-detail"></div>
+  <div class="vio-cd" id="vio-cd">5</div>
+  <button class="vio-dismiss" onclick="dismissVio()">I Understand — Return to Exam</button>
+</div>
+
+<!-- ════════ DONE SCREEN ════════ -->
+<div id="done-screen" class="screen">
+  <div class="done-card">
+    <div class="done-hero">
+      <div class="done-icon">✅</div>
+      <h2>Session complete</h2>
+      <p id="done-sub">Your exam has been recorded.</p>
+    </div>
+    <div class="done-body">
+      <div class="done-stat"><span>Candidate</span><span class="done-val" id="d-name">—</span></div>
+      <div class="done-stat"><span>Duration</span><span class="done-val" id="d-dur">—</span></div>
+      <div class="done-stat"><span>Critical violations</span><span class="done-val red" id="d-crit">0</span></div>
+      <div class="done-stat"><span>Warnings</span><span class="done-val amber" id="d-warn">0</span></div>
+      <div class="done-stat"><span>Ended by</span><span class="done-val" id="d-by">—</span></div>
+      <div class="done-stat"><span>Status</span><span class="done-val" id="d-status">—</span></div>
+      <div class="send-status" id="send-status"></div>
+      <button class="resend-btn" onclick="sendReport()">↺ Resend email report</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+'use strict';
+
+const $  = id => document.getElementById(id);
+const gv = id => ($(id)?.value || '').trim();
+const gc = (id, def=true) => $(id)?.checked ?? def;
+const st = (id, v) => { try { $(id).textContent = String(v ?? ''); } catch(e){} };
+
+let _toastT;
+function toast(msg, ms=2800) {
+  const t = $('toast'); if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(_toastT);
+  _toastT = setTimeout(() => t.classList.remove('show'), ms);
+}
+
+function showScreen(id) {
+  ['proctor-screen','candidate-screen','done-screen'].forEach(s => {
+    const el = $(s);
+    if (!el) return;
+    el.classList.toggle('active', s === id);
+  });
+}
+
+function fmtMs(ms) {
+  const s = Math.floor(Math.max(0, ms) / 1000);
+  const m = Math.floor(s / 60), h = Math.floor(m / 60);
+  return h > 0 ? `${h}h ${m%60}m ${s%60}s` : `${m}m ${s%60}s`;
+}
+
+function genSid() {
+  return 'EG' + Date.now().toString(36).toUpperCase().slice(-4)
+       + Math.random().toString(36).slice(2,5).toUpperCase();
+}
+
+// ── URL encoding / decoding ──
+function encodeSession(cfg) {
+  const p = new URLSearchParams();
+  p.set('n',  cfg.name);
+  p.set('u',  cfg.url);
+  p.set('e',  cfg.email);
+  p.set('es', cfg.ejsSvc);
+  p.set('et', cfg.ejsTpl);
+  p.set('ek', cfg.ejsKey);
+  p.set('ft', cfg.tabs ? '1' : '0');
+  p.set('fc', cfg.copy ? '1' : '0');
+  p.set('fk', cfg.keys ? '1' : '0');
+  p.set('s',  cfg.sid);
+  return p.toString();
+}
+
+function decodeSession() {
+  const p = new URLSearchParams(location.search);
+  if (!p.get('s')) return null;
+  return {
+    name:      p.get('n')  || 'Candidate',
+    url:       p.get('u')  || '',
+    email:     p.get('e')  || '',
+    ejsSvc:    p.get('es') || '',
+    ejsTpl:    p.get('et') || '',
+    ejsKey:    p.get('ek') || '',
+    tabs:      p.get('ft') !== '0',
+    copy:      p.get('fc') !== '0',
+    keys:      p.get('fk') !== '0',
+    sid:       p.get('s'),
+  };
+}
+
+// ── Boot ──
+window.addEventListener('DOMContentLoaded', () => {
+  const cfg = decodeSession();
+  if (cfg) startCandidateSession(cfg);
+});
+
+// ──────────────── PROCTOR ────────────────
+window.createSession = function() {
+  const name = gv('p-name'), url = gv('p-url');
+  if (!name) { toast('Enter the candidate name.'); return; }
+  if (!url || !url.startsWith('http')) { toast('Enter a valid form URL starting with https://'); return; }
+
+  const cfg = {
+    name, url,
+    email:     gv('p-email'),
+    ejsSvc:    gv('p-svc'),
+    ejsTpl:    gv('p-tpl'),
+    ejsKey:    gv('p-key'),
+    tabs:      gc('t-tabs'),
+    copy:      gc('t-copy'),
+    keys:      gc('t-keys'),
+    sid:       genSid(),
+  };
+
+  const link = location.origin + location.pathname + '?' + encodeSession(cfg);
+  $('share-url').value = link;
+  st('m-name',  cfg.name);
+  st('m-sid',   cfg.sid);
+  st('m-email', cfg.email || '(not set)');
+  $('share-modal').classList.add('show');
+};
+
+window.closeModal = function() { $('share-modal').classList.remove('show'); };
+
+window.copyLink = function() {
+  const url = $('share-url').value;
+  const btn = $('copy-btn');
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = 'Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    $('share-url').select(); document.execCommand('copy');
+    toast('Link copied!');
+  });
+};
+
+// ──────────────── CANDIDATE ────────────────
+let cfg = null, startTime = null;
+let monitoring = false, formOpened = false, ended = false;
+let crit = 0, warns = 0, events = [];
+let vPending = false, vIv = null, lastBlur = 0;
+let endReason = '', reportText = '';
+
+function startCandidateSession(config) {
+  cfg = config;
+  startTime = Date.now();
+  st('c-name-bar', cfg.name);
+  st('c-sid', cfg.sid);
+  showScreen('candidate-screen');
+  attachListeners();
+  logEv('info', 'Session started', `Candidate: ${cfg.name}`);
+}
+
+window.openForm = function() {
+  if (!cfg?.url) { toast('No form URL.'); return; }
+  window.open(cfg.url, '_blank', 'noopener');
+  formOpened = true;
+  const pill = $('form-pill');
+  pill.textContent = '✓ Form is open in another tab — complete it there';
+  pill.className = 'form-pill open';
+  $('open-form-btn').textContent = '↗  Re-open Form';
+  logEv('info', 'Form opened', 'Exam form launched in new tab');
+  // Reveal submit button
+  const sb = $('submit-btn');
+  sb.style.display = 'flex';
+  // Activate monitoring after 3 s to absorb the new-tab focus loss
+  setTimeout(() => { monitoring = true; lastBlur = Date.now(); }, 3000);
+};
+
+window.candidateSubmit = function() {
+  endReason = 'Candidate submitted form';
+  logEv('info', 'Session ended by candidate', 'Candidate clicked submit after completing form');
+  endSession();
+};
+
+// Event listeners
+function attachListeners() {
+  if (cfg.tabs) {
+    document.addEventListener('visibilitychange', onVis);
+    window.addEventListener('blur', onBlur);
+  }
+  if (cfg.copy) {
+    document.addEventListener('copy',  onCopy);
+    document.addEventListener('paste', onPaste);
+    document.addEventListener('cut',   onCut);
+  }
+  if (cfg.keys) document.addEventListener('keydown', onKey);
+  window.addEventListener('beforeunload', onUnload);
+}
+function detachListeners() {
+  document.removeEventListener('visibilitychange', onVis);
+  window.removeEventListener('blur', onBlur);
+  document.removeEventListener('copy',  onCopy);
+  document.removeEventListener('paste', onPaste);
+  document.removeEventListener('cut',   onCut);
+  document.removeEventListener('keydown', onKey);
+  window.removeEventListener('beforeunload', onUnload);
+}
+
+function onUnload(e) {
+  if (ended || !monitoring) return;
+  fire('critical', 'Page closed', 'Candidate attempted to close or navigate away');
+  e.preventDefault(); e.returnValue = 'Your exam is still in progress.';
+  return e.returnValue;
+}
+function onVis() {
+  if (!monitoring || ended || !document.hidden) return;
+  fire('critical', 'Tab switched', 'Candidate navigated away from exam page.');
+}
+function onBlur() {
+  if (!monitoring || ended) return;
+  const now = Date.now(); if (now - lastBlur < 2000) return; lastBlur = now;
+  if (document.hidden) return;
+  fire('warning', 'Window lost focus', 'Candidate may have switched to another application.');
+}
+function onCopy(e)  { if (!monitoring||ended) return; e.preventDefault(); fire('warning','Copy attempt','Candidate tried to copy text.'); }
+function onPaste(e) { if (!monitoring||ended) return; e.preventDefault(); fire('warning','Paste attempt','Candidate tried to paste.'); }
+function onCut(e)   { if (!monitoring||ended) return; e.preventDefault(); fire('warning','Cut attempt','Candidate tried to cut text.'); }
+function onKey(e) {
+  if (!monitoring || ended) return;
+  const bad = e.key==='F12'
+    || (e.ctrlKey && /^[uU]$/.test(e.key))
+    || (e.ctrlKey && e.shiftKey && /^[iIjJcC]$/.test(e.key))
+    || ((e.altKey || e.metaKey) && e.key==='Tab');
+  if (bad) {
+    e.preventDefault();
+    fire('warning','Blocked shortcut',
+      `${e.ctrlKey?'Ctrl+':''}${e.shiftKey?'Shift+':''}${e.altKey?'Alt+':''}${e.metaKey?'Cmd+':''}${e.key}`);
+  }
+}
+
+// Violations
+function fire(level, title, detail) {
+  if (ended) return;
+  if (level==='critical') crit++;
+  else if (level==='warning') warns++;
+  logEv(level, title, detail);
+  showVioOverlay(title, detail);
+}
+function showVioOverlay(title, detail) {
+  if (vPending) return; vPending = true;
+  st('vio-title', title); st('vio-detail', detail || '');
+  $('vio-overlay').style.display = 'flex';
+  let c = 5; st('vio-cd', c);
+  if (vIv) clearInterval(vIv);
+  vIv = setInterval(() => {
+    try { c--; st('vio-cd', c); if (c<=0) { clearInterval(vIv); vIv=null; dismissVio(); } }
+    catch(e) { clearInterval(vIv); dismissVio(); }
+  }, 1000);
+}
+window.dismissVio = function() {
+  if (vIv) { clearInterval(vIv); vIv=null; }
+  $('vio-overlay').style.display='none'; vPending=false;
+};
+function logEv(level, title, detail) {
+  events.push({ time: new Date().toLocaleTimeString(), ts: Date.now(), level, title, detail: detail||'' });
+}
+
+// End
+function endSession() {
+  if (ended) return; ended = true;
+  if (vIv) { clearInterval(vIv); vIv=null; }
+  detachListeners();
+  $('vio-overlay').style.display = 'none';
+  const elapsed = Date.now() - startTime;
+  buildDone(elapsed);
+  showScreen('done-screen');
+  setTimeout(() => sendReport(), 600);
+}
+
+function buildDone(elapsed) {
+  const status = crit>=2 ? 'FLAGGED' : (warns>=2||crit>=1) ? 'REVIEW' : 'CLEAN';
+  st('d-name',   cfg.name);
+  st('d-dur',    fmtMs(elapsed));
+  st('d-crit',   crit);
+  st('d-warn',   warns);
+  st('d-by',     endReason || '—');
+  st('d-status', status);
+  $('d-status').className = 'done-val ' + (status==='CLEAN'?'green':status==='REVIEW'?'amber':'red');
+  st('done-sub', status==='CLEAN' ? 'No violations recorded.' : `${crit} critical · ${warns} warnings`);
+
+  let log = `EXAMGUARD SESSION REPORT\n${'─'.repeat(42)}\n`;
+  log += `Candidate  : ${cfg.name}\nSession ID : ${cfg.sid}\n`;
+  log += `Duration   : ${fmtMs(elapsed)}\nStatus     : ${status}\n`;
+  log += `Critical   : ${crit}\nWarnings   : ${warns}\n`;
+  log += `Ended by   : ${endReason}\n${'─'.repeat(42)}\nEVENT LOG:\n`;
+  events.forEach(e => {
+    log += `[${e.time}] [${e.level.toUpperCase().padEnd(8)}] ${e.title}${e.detail?' — '+e.detail:''}\n`;
+  });
+  reportText = log;
+  window._rMeta = { elapsed, status };
+}
+
+// Email
+window.sendReport = async function() {
+  const ss = $('send-status');
+  if (!cfg.ejsSvc || !cfg.ejsTpl || !cfg.ejsKey) {
+    ss.textContent = 'EmailJS not configured — no report was sent.';
+    ss.className = 'send-status failed'; return;
+  }
+  if (!cfg.email) {
+    ss.textContent = 'No recipient email set.';
+    ss.className = 'send-status failed'; return;
+  }
+  ss.textContent = 'Sending report…'; ss.className = 'send-status sending';
+  try {
+    emailjs.init(cfg.ejsKey);
+    const m = window._rMeta || {};
+    await emailjs.send(cfg.ejsSvc, cfg.ejsTpl, {
+      to_email: cfg.email, candidate_name: cfg.name,
+      session_id: cfg.sid, duration: fmtMs(m.elapsed||0),
+      critical: String(crit), warnings: String(warns),
+      status: m.status||'—', log: reportText,
+    });
+    ss.textContent = `✓ Report sent to ${cfg.email}`;
+    ss.className = 'send-status sent';
+  } catch(err) {
+    ss.textContent = 'Email failed: ' + (err?.text || err?.message || 'check EmailJS config');
+    ss.className = 'send-status failed';
+  }
+};
+</script>
+</body>
+</html>
