@@ -21,20 +21,19 @@
   --shl:0 2px 6px rgba(0,0,0,.06),0 14px 44px rgba(0,0,0,.11);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased}
-body{font-family:var(--fs);background:var(--pp);color:var(--ink);min-height:100vh}
-.screen{display:none}.screen.active{display:flex}
+html{-webkit-font-smoothing:antialiased;height:100%}
+body{font-family:var(--fs);background:var(--pp);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
 button{font-family:var(--fs)}
+.screen{display:none}.screen.active{display:flex}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;height:54px;background:var(--w);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;box-shadow:0 1px 0 var(--bd)}
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;height:54px;background:var(--w);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;box-shadow:0 1px 0 var(--bd);flex-shrink:0}
 .nav-logo-wrap{display:flex;align-items:center;gap:9px}
 .nav-logo{width:34px;height:34px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--fd);font-size:1.05rem;font-weight:700}
 .nav-name{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--ink)}
 .nav-tabs{display:flex;gap:2px;margin-left:1.25rem}
 .ntab{padding:.35rem .85rem;border-radius:6px;border:none;background:none;font-size:.81rem;font-weight:500;color:var(--i2);cursor:pointer;transition:all .15s}
-.ntab:hover{background:var(--sn);color:var(--ink)}
-.ntab.on{background:var(--tll);color:var(--tl)}
+.ntab:hover{background:var(--sn);color:var(--ink)}.ntab.on{background:var(--tll);color:var(--tl)}
 .nav-sp{flex:1}
 .fb-status{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:.6rem;font-weight:500;padding:3px 9px;border-radius:20px;border:1px solid var(--bd);background:var(--sn);color:var(--i3)}
 .fb-dot{width:6px;height:6px;border-radius:50%;background:var(--i3);flex-shrink:0}
@@ -45,20 +44,24 @@ button{font-family:var(--fs)}
 .nbtn:hover{background:#2e2b22}
 .nbtn.ghost{background:none;color:var(--ink);border:1.5px solid var(--b2)}.nbtn.ghost:hover{background:var(--sn)}
 
-/* PAGE */
-.page{min-height:calc(100vh - 54px);flex-direction:column;align-items:center;padding:2rem 1.25rem 5rem;background:var(--pp)}
-.pi{width:100%;max-width:820px}
+/* ── TABS (full height) ── */
+.tab-page{flex:1;display:none;flex-direction:column;min-height:0;overflow:hidden}
+.tab-page.active{display:flex}
+
+/* ── SCROLLABLE PAGE CONTENT ── */
+.scroll-area{flex:1;overflow-y:auto;padding:2rem 1.5rem 5rem}
+.page-inner{width:100%;max-width:820px;margin:0 auto}
 .ph{margin-bottom:1.75rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
 .pt{font-family:var(--fd);font-size:1.7rem;font-weight:600;color:var(--ink);letter-spacing:-.02em;margin-bottom:.2rem}
 .ps{font-size:.85rem;color:var(--i2);line-height:1.6}
 
-/* PANELS */
+/* ── PANELS ── */
 .panel{background:var(--w);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);margin-bottom:1rem}
-.phead{padding:.9rem 1.25rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phead{padding:.9rem 1.25rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-shrink:0}
 .ptitle{font-family:var(--fm);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--i2)}
 .pb{padding:1.25rem}
 
-/* FIELDS */
+/* ── FIELDS ── */
 .field{margin-bottom:.8rem}.field:last-child{margin-bottom:0}
 .field label{display:block;font-size:.77rem;font-weight:600;color:var(--ink);margin-bottom:.28rem}
 .field input,.field select,.field textarea{width:100%;padding:.58rem .8rem;background:var(--sn);border:1.5px solid var(--bd);border-radius:var(--r);font-family:var(--fm);font-size:.81rem;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s;resize:vertical}
@@ -67,7 +70,7 @@ button{font-family:var(--fs)}
 .field .hint{font-size:.67rem;color:var(--i2);margin-top:.28rem;line-height:1.4}
 .r2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
 
-/* TOGGLES */
+/* ── TOGGLES ── */
 .trow{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--bd);gap:1rem}
 .trow:last-child{border-bottom:none;padding-bottom:0}.trow:first-child{padding-top:0}
 .tlbl{font-size:.83rem;color:var(--ink)}
@@ -78,7 +81,7 @@ button{font-family:var(--fs)}
 .tog input:checked~.tog-rail{background:var(--tl)}
 .tog input:checked~.tog-rail::before{transform:translateX(18px)}
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn{padding:.55rem 1rem;border:none;border-radius:var(--r);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
 .bp{background:var(--ink);color:#fff}.bp:hover{background:#2e2b22}
 .bt{background:var(--tl);color:#fff}.bt:hover{background:var(--tld)}
@@ -88,8 +91,8 @@ button{font-family:var(--fs)}
 .bfull{width:100%;justify-content:center;padding:.88rem}
 .bsm{padding:.35rem .75rem;font-size:.75rem}
 
-/* LIBRARY */
-.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:.85rem;margin-bottom:1rem}
+/* ── LIBRARY: CARD GRID ── */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.85rem;margin-bottom:1rem}
 .tcard{background:var(--w);border:1.5px solid var(--bd);border-radius:var(--rl);padding:1.1rem 1.25rem;transition:all .15s;display:flex;flex-direction:column;gap:.6rem;box-shadow:var(--sh)}
 .tcard:hover{border-color:var(--tl);box-shadow:0 0 0 3px rgba(11,123,110,.08),var(--sh)}
 .tc-name{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--ink)}
@@ -98,12 +101,168 @@ button{font-family:var(--fs)}
 .pill.t{background:var(--tll);border-color:var(--tl);color:var(--tl)}
 .tc-acts{display:flex;gap:.4rem;margin-top:.2rem;flex-wrap:wrap}
 
-/* SESSION PICK */
-.pick-area{min-height:100px;border:2px dashed var(--b2);border-radius:var(--rl);display:flex;align-items:center;justify-content:center;padding:1.5rem;text-align:center;color:var(--i2);font-size:.85rem;margin-bottom:1rem}
+/* ── FULL-PAGE EDITOR ── */
+#tab-editor{background:var(--pp)}
+.editor-topbar{
+  height:52px;background:var(--w);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;flex-shrink:0;
+}
+.editor-name-input{
+  flex:1;border:none;outline:none;font-family:var(--fd);font-size:1.05rem;
+  font-weight:600;color:var(--ink);background:transparent;
+  min-width:0;
+}
+.editor-name-input::placeholder{color:var(--i3)}
+.autosave-badge{font-family:var(--fm);font-size:.62rem;color:var(--i2);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.autosave-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--i3)}
+.autosave-badge.saved .dot{background:var(--tl)}.autosave-badge.saved{color:var(--tl)}
+.autosave-badge.saving .dot{background:var(--am);animation:blink2 .8s infinite}.autosave-badge.saving{color:var(--am)}
+.autosave-badge.error .dot{background:var(--rd)}.autosave-badge.error{color:var(--rd)}
+
+.editor-layout{flex:1;display:flex;min-height:0;overflow:hidden}
+
+/* ── EDITOR SIDEBAR ── */
+.editor-sidebar{
+  width:260px;flex-shrink:0;border-right:1px solid var(--bd);
+  background:var(--w);display:flex;flex-direction:column;overflow:hidden;
+}
+.sidebar-head{padding:.85rem 1rem;border-bottom:1px solid var(--bd);flex-shrink:0}
+.sidebar-head .ptitle{margin-bottom:.6rem;display:block}
+.sidebar-scroll{flex:1;overflow-y:auto;padding:.5rem}
+
+/* ── SECTION/QUESTION OUTLINE ── */
+.outline-item{
+  display:flex;align-items:center;gap:7px;padding:.42rem .6rem;
+  border-radius:6px;cursor:pointer;transition:background .12s;
+  font-size:.78rem;color:var(--i2);user-select:none;
+}
+.outline-item:hover{background:var(--sn)}
+.outline-item.active{background:var(--tll);color:var(--tl)}
+.outline-item.section-item{font-weight:600;color:var(--ink);font-size:.8rem}
+.outline-item .drag-handle{cursor:grab;color:var(--i3);font-size:.75rem;flex-shrink:0}
+.outline-item .drag-handle:active{cursor:grabbing}
+.outline-num{width:20px;height:20px;border-radius:4px;background:var(--tl);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.58rem;color:#fff;flex-shrink:0}
+.outline-num.sec{background:var(--ink)}
+.outline-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── EDITOR CANVAS ── */
+.editor-canvas{flex:1;overflow-y:auto;padding:1.5rem}
+.editor-canvas-inner{max-width:700px;margin:0 auto}
+
+/* ── SECTION BLOCK ── */
+.section-block{
+  background:var(--ink);border-radius:var(--rl);padding:1.1rem 1.25rem;
+  margin-bottom:.85rem;display:flex;align-items:center;gap:.75rem;
+  cursor:grab;
+}
+.section-block:active{cursor:grabbing;opacity:.8}
+.section-block.drag-over{outline:2px dashed var(--tl);outline-offset:2px}
+.section-block input{
+  flex:1;background:transparent;border:none;outline:none;
+  font-family:var(--fd);font-size:1.1rem;font-weight:600;color:#fff;
+}
+.section-block input::placeholder{color:rgba(255,255,255,.4)}
+.section-drag-icon{color:rgba(255,255,255,.4);font-size:.8rem;cursor:grab;flex-shrink:0}
+.section-del{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.5);font-size:.9rem;padding:2px;transition:color .1s;flex-shrink:0}
+.section-del:hover{color:#fff}
+
+/* ── QUESTION BLOCK ── */
+.q-block{
+  background:var(--w);border:1.5px solid var(--bd);border-radius:var(--rl);
+  margin-bottom:.85rem;overflow:hidden;box-shadow:var(--sh);
+  cursor:grab;transition:box-shadow .15s;
+}
+.q-block:active{cursor:grabbing;opacity:.85}
+.q-block.drag-over{outline:2px dashed var(--tl);outline-offset:2px}
+.q-block.focused{border-color:var(--tl);box-shadow:0 0 0 3px rgba(11,123,110,.1),var(--sh)}
+.q-block-header{
+  display:flex;align-items:center;gap:.65rem;padding:.7rem 1rem;
+  border-bottom:1px solid var(--bd);background:var(--sn);
+}
+.q-drag{color:var(--i3);cursor:grab;font-size:.85rem;flex-shrink:0}
+.q-drag:active{cursor:grabbing}
+.q-type-sel{
+  font-family:var(--fm);font-size:.65rem;font-weight:500;
+  padding:3px 8px;border-radius:5px;border:1.5px solid var(--bd);
+  background:var(--w);color:var(--i2);cursor:pointer;
+}
+.q-type-sel:focus{outline:none;border-color:var(--tl)}
+.q-pts-input{width:55px;padding:3px 6px;border:1.5px solid var(--bd);border-radius:5px;font-family:var(--fm);font-size:.65rem;background:var(--w);color:var(--ink);text-align:center}
+.q-pts-input:focus{outline:none;border-color:var(--tl)}
+.q-header-spacer{flex:1}
+.q-del-btn{background:none;border:none;cursor:pointer;color:var(--i3);font-size:.9rem;padding:2px 4px;transition:color .1s}
+.q-del-btn:hover{color:var(--rd)}
+.q-body{padding:1rem}
+.q-text-input{
+  width:100%;border:none;outline:none;border-bottom:2px solid var(--bd);
+  font-family:var(--fs);font-size:.95rem;font-weight:600;color:var(--ink);
+  background:transparent;padding:.3rem 0;margin-bottom:.85rem;
+  transition:border-color .15s;
+}
+.q-text-input:focus{border-bottom-color:var(--tl)}
+.q-text-input::placeholder{color:var(--i3);font-weight:400}
+
+/* MC options in editor */
+.mc-editor-opts{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.5rem}
+.mc-editor-row{display:flex;align-items:center;gap:.5rem}
+.mc-editor-row input[type=text]{
+  flex:1;padding:.45rem .7rem;border:1.5px solid var(--bd);
+  border-radius:var(--r);font-family:var(--fs);font-size:.84rem;
+  color:var(--ink);background:var(--sn);outline:none;transition:border-color .15s;
+}
+.mc-editor-row input[type=text]:focus{border-color:var(--tl);background:#fff}
+.correct-toggle{
+  padding:3px 9px;border-radius:5px;border:1.5px solid var(--bd);
+  background:var(--sn);font-size:.65rem;font-weight:600;color:var(--i2);
+  cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}
+.correct-toggle.yes{background:var(--gnl);border-color:var(--gn);color:var(--gn)}
+.mc-opt-del{background:none;border:none;cursor:pointer;color:var(--i3);font-size:.85rem;padding:2px;flex-shrink:0}
+.mc-opt-del:hover{color:var(--rd)}
+.correct-answer-box{
+  padding:.65rem;background:var(--gnl);border:1px solid var(--gn);
+  border-radius:var(--r);margin-top:.5rem;
+}
+.correct-answer-box label{color:var(--gn)}
+.para-note{padding:.5rem .65rem;background:var(--aml);border:1px solid #f0d080;border-radius:var(--r);font-size:.73rem;color:var(--am)}
+
+/* add block bar */
+.add-block-bar{
+  display:flex;flex-wrap:wrap;gap:.45rem;padding:.85rem 1rem;
+  background:var(--w);border:1.5px dashed var(--b2);border-radius:var(--rl);
+  margin-bottom:.85rem;
+}
+
+/* ── SESSION TAB ── */
+.pick-area{min-height:90px;border:2px dashed var(--b2);border-radius:var(--rl);display:flex;align-items:center;justify-content:center;padding:1.5rem;text-align:center;color:var(--i2);font-size:.85rem;margin-bottom:1rem}
 .pick-area.picked{border-style:solid;border-color:var(--tl);background:var(--tll);flex-direction:column;gap:.3rem}
 .pick-name{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--tl)}
+.last-link-wrap{margin-top:.75rem}
+.last-link-row{display:flex;border:1.5px solid var(--b2);border-radius:var(--r);overflow:hidden}
+.last-link-row input{flex:1;padding:.6rem .8rem;background:var(--sn);border:none;font-family:var(--fm);font-size:.69rem;color:var(--ink);outline:none}
+.cpbtn{padding:0 1rem;background:var(--tl);color:#fff;border:none;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s}
+.cpbtn:hover{background:var(--tld)}.cpbtn.ok{background:#2e7d4f}
 
-/* REPORTS */
+/* ── MODALS ── */
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(24,22,15,.55);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:1.5rem}
+.overlay.show{display:flex}
+.modal{background:var(--w);border-radius:var(--rx);box-shadow:var(--shl);width:100%;max-width:520px;overflow:hidden;animation:pop .22s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.mhead{padding:1.35rem 1.4rem;border-bottom:1px solid var(--bd);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.mhead h2{font-family:var(--fd);font-size:1.3rem;font-weight:600;color:var(--ink)}
+.mhead p{font-size:.8rem;color:var(--i2);margin-top:.18rem;line-height:1.5}
+.mx{background:none;border:none;cursor:pointer;color:var(--i2);font-size:1.25rem;flex-shrink:0}
+.mx:hover{color:var(--ink)}
+.mbody{padding:1.4rem}
+.mmeta{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.9rem}
+.mtile{padding:.6rem .75rem;background:var(--sn);border:1px solid var(--bd);border-radius:var(--r)}
+.mtile .lbl{font-family:var(--fm);font-size:.57rem;text-transform:uppercase;letter-spacing:.1em;color:var(--i2)}
+.mtile .val{font-size:.83rem;font-weight:600;color:var(--ink);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mnote{font-size:.73rem;color:var(--i2);line-height:1.55;padding:.7rem;background:var(--tll);border-radius:var(--r);border:1px solid #b2dbd7}
+.url-row{display:flex;border:1.5px solid var(--b2);border-radius:var(--r);overflow:hidden;margin-bottom:.9rem}
+#share-url{flex:1;padding:.6rem .8rem;background:var(--sn);border:none;font-family:var(--fm);font-size:.69rem;color:var(--ink);outline:none}
+
+/* ── REPORTS ── */
 .rlist{display:flex;flex-direction:column;gap:.65rem}
 .rrow{background:var(--w);border:1px solid var(--bd);border-radius:var(--rl);padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;box-shadow:var(--sh);cursor:pointer;transition:all .15s}
 .rrow:hover{border-color:var(--b2);box-shadow:var(--shl)}
@@ -116,53 +275,10 @@ button{font-family:var(--fs)}
 .sbadge.CLEAN{background:var(--gnl);color:var(--gn);border:1px solid #9fd4a0}
 .sbadge.REVIEW{background:var(--aml);color:var(--am);border:1px solid #f0d080}
 .sbadge.FLAGGED{background:var(--rdl);color:var(--rd);border:1px solid #f5bebe}
-.score-lbl{font-family:var(--fm);font-size:.68rem;color:var(--i2)}
 
-/* Q BUILDER */
-.qblist{display:flex;flex-direction:column;gap:.55rem;margin-bottom:.85rem}
-.qr{border:1.5px solid var(--bd);border-radius:var(--r);background:var(--sn);overflow:hidden}
-.qrh{display:flex;align-items:center;gap:9px;padding:.6rem .85rem;cursor:pointer}
-.qr.open .qrh{border-bottom:1px solid var(--bd)}
-.qnum{width:22px;height:22px;background:var(--tl);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.62rem;color:#fff;flex-shrink:0}
-.qprev{flex:1;font-size:.82rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qtag{font-family:var(--fm);font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--tll);color:var(--tl);flex-shrink:0}
-.qdelbtn{background:none;border:none;cursor:pointer;color:var(--i3);font-size:.9rem;padding:2px 4px;transition:color .1s;flex-shrink:0}
-.qdelbtn:hover{color:var(--rd)}
-.qrb{display:none;padding:.85rem}.qr.open .qrb{display:block}
-.optlist{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.5rem}
-.optrow{display:flex;align-items:center;gap:.5rem}
-.optrow input{flex:1}
-.cbtn{padding:3px 8px;border-radius:5px;border:1.5px solid var(--b2);background:var(--sn);font-size:.64rem;font-weight:600;color:var(--i2);cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0}
-.cbtn.yes{background:var(--gnl);border-color:var(--gn);color:var(--gn)}
-.odl{background:none;border:none;cursor:pointer;color:var(--i3);font-size:.85rem;padding:2px;transition:color .1s;flex-shrink:0}
-.odl:hover{color:var(--rd)}
-.ptsrow{display:flex;align-items:center;gap:.6rem;margin-top:.65rem}
-.ptsrow label{font-size:.77rem;font-weight:600;color:var(--ink);white-space:nowrap}
-.ptsrow input{width:70px}
-
-/* MODALS */
-.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(24,22,15,.55);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:1.5rem}
-.overlay.show{display:flex}
-.modal{background:var(--w);border-radius:var(--rx);box-shadow:var(--shl);width:100%;max-width:520px;overflow:hidden;animation:pop .22s cubic-bezier(.34,1.56,.64,1)}
-.modal.wide{max-width:720px;max-height:88vh;overflow-y:auto}
-@keyframes pop{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
-.mhead{padding:1.35rem 1.4rem;border-bottom:1px solid var(--bd);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;position:sticky;top:0;background:var(--w);z-index:2}
-.mhead h2{font-family:var(--fd);font-size:1.3rem;font-weight:600;color:var(--ink)}
-.mhead p{font-size:.8rem;color:var(--i2);margin-top:.18rem;line-height:1.5}
-.mx{background:none;border:none;cursor:pointer;color:var(--i2);font-size:1.25rem;flex-shrink:0}
-.mx:hover{color:var(--ink)}
-.mbody{padding:1.4rem}
-.urow{display:flex;border:1.5px solid var(--b2);border-radius:var(--r);overflow:hidden;margin-bottom:.9rem}
-#share-url{flex:1;padding:.6rem .8rem;background:var(--sn);border:none;font-family:var(--fm);font-size:.69rem;color:var(--ink);outline:none}
-.cpbtn{padding:0 1rem;background:var(--tl);color:#fff;border:none;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s}
-.cpbtn:hover{background:var(--tld)}.cpbtn.ok{background:#2e7d4f}
-.mmeta{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.9rem}
-.mtile{padding:.6rem .75rem;background:var(--sn);border:1px solid var(--bd);border-radius:var(--r)}
-.mtile .lbl{font-family:var(--fm);font-size:.57rem;text-transform:uppercase;letter-spacing:.1em;color:var(--i2)}
-.mtile .val{font-size:.83rem;font-weight:600;color:var(--ink);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mnote{font-size:.73rem;color:var(--i2);line-height:1.55;padding:.7rem;background:var(--tll);border-radius:var(--r);border:1px solid #b2dbd7}
-
-/* REPORT DETAIL */
+/* ── REPORT DETAIL MODAL ── */
+.modal.wide{max-width:700px;max-height:88vh;overflow-y:auto}
+.mhead.sticky{position:sticky;top:0;background:var(--w);z-index:2}
 .rsec{margin-bottom:1.25rem}
 .rstitle{font-family:var(--fm);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--i2);margin-bottom:.65rem;display:flex;align-items:center;gap:8px}
 .rstitle::after{content:'';flex:1;height:1px;background:var(--bd)}
@@ -173,11 +289,16 @@ button{font-family:var(--fs)}
 .ares.c{background:var(--gnl);color:var(--gn)}.ares.w{background:var(--rdl);color:var(--rd)}.ares.m{background:var(--aml);color:var(--am)}
 .vline{font-family:var(--fm);font-size:.67rem;color:var(--i2);padding:.2rem 0;border-bottom:1px solid var(--bd);line-height:1.4}
 .vline:last-child{border-bottom:none}.vline.critical{color:var(--rd)}.vline.warning{color:var(--am)}
-.scsumm{background:var(--tll);border:1px solid var(--tl);border-radius:var(--r);padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem}
-.scbig{font-family:var(--fm);font-size:1.4rem;font-weight:500;color:var(--tl)}
-.scdetail{font-size:.78rem;color:var(--tl);opacity:.85}
+.ss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;margin-top:.5rem}
+.ss-thumb{border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);cursor:pointer;aspect-ratio:16/9;background:var(--sn);position:relative}
+.ss-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ss-ts{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);color:#fff;font-family:var(--fm);font-size:.55rem;padding:3px 6px}
+#ss-lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);align-items:center;justify-content:center;padding:2rem}
+#ss-lightbox.show{display:flex}
+#ss-lightbox img{max-width:90vw;max-height:85vh;border-radius:var(--r)}
+#ss-lb-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.5rem;cursor:pointer;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 
-/* CANDIDATE TEST */
+/* ── CANDIDATE TEST ── */
 #test-screen{min-height:100vh;flex-direction:column;background:var(--pp)}
 .tstbar{position:sticky;top:0;z-index:50;height:52px;background:var(--w);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;box-shadow:0 1px 0 var(--bd)}
 .tb-brand{font-family:var(--fd);font-size:.95rem;font-weight:600;color:var(--ink)}
@@ -187,6 +308,15 @@ button{font-family:var(--fs)}
 .tb-cn{flex:1;text-align:center;font-size:.83rem;font-weight:500;color:var(--i2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vbadge{font-family:var(--fm);font-size:.63rem;font-weight:500;padding:3px 9px;border-radius:20px;background:var(--sn);border:1px solid var(--bd);color:var(--i2);transition:all .2s}
 .vbadge.hot{background:var(--rdl);border-color:#f5bebe;color:var(--rd)}
+.mon-banner{background:#fff8f0;border-bottom:1px solid #fed7aa;padding:.65rem 1.5rem;display:flex;align-items:center;gap:.6rem}
+.mon-banner span{font-size:.78rem;color:#92400e;line-height:1.4}
+
+/* SECTIONS progress */
+.progress-bar-wrap{height:4px;background:var(--bd)}
+.progress-bar{height:4px;background:var(--tl);transition:width .4s ease}
+.section-nav{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.5rem;background:var(--w);border-bottom:1px solid var(--bd);font-size:.8rem;color:var(--i2)}
+.section-nav strong{color:var(--ink);font-weight:600}
+
 .tmain{flex:1;padding:2.5rem 1.25rem 5rem;display:flex;justify-content:center}
 .twrap{width:100%;max-width:680px}
 .thead{margin-bottom:2.25rem}
@@ -194,9 +324,11 @@ button{font-family:var(--fs)}
 .thead .tinstr{font-size:.84rem;color:var(--i2);line-height:1.6;margin-top:.35rem}
 .ctag{display:inline-flex;align-items:center;gap:6px;margin-top:.65rem;padding:.28rem .75rem;background:var(--w);border:1px solid var(--bd);border-radius:20px;font-size:.75rem;color:var(--i2);font-family:var(--fm)}
 .ctag strong{color:var(--ink);font-weight:500}
+
+.section-heading{font-family:var(--fd);font-size:1.3rem;font-weight:600;color:var(--ink);margin-bottom:1.25rem;padding-bottom:.65rem;border-bottom:2px solid var(--ink)}
+
 .qcard{background:var(--w);border:1.5px solid var(--bd);border-radius:var(--rl);margin-bottom:1rem;box-shadow:var(--sh);overflow:hidden;animation:slin .3s ease both}
 @keyframes slin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.qcard:nth-child(1){animation-delay:.04s}.qcard:nth-child(2){animation-delay:.08s}.qcard:nth-child(3){animation-delay:.12s}.qcard:nth-child(4){animation-delay:.16s}.qcard:nth-child(5){animation-delay:.2s}.qcard:nth-child(6){animation-delay:.24s}.qcard:nth-child(7){animation-delay:.28s}.qcard:nth-child(8){animation-delay:.32s}.qcard:nth-child(9){animation-delay:.36s}.qcard:nth-child(10){animation-delay:.4s}
 .qct{display:flex;align-items:flex-start;gap:11px;padding:1.1rem 1.25rem .7rem}
 .qnn{width:27px;height:27px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.68rem;color:#fff;flex-shrink:0;margin-top:1px}
 .qptsl{font-family:var(--fm);font-size:.59rem;color:var(--i3);margin-top:3px}
@@ -213,20 +345,23 @@ button{font-family:var(--fs)}
 .ansin{width:100%;padding:.62rem .85rem;border:1.5px solid var(--bd);border-radius:var(--r);background:var(--sn);font-family:var(--fs);font-size:.88rem;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s}
 .ansin:focus{border-color:var(--tl);background:#fff;box-shadow:0 0 0 3px rgba(11,123,110,.1)}
 textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
-.subb{width:100%;padding:.95rem;background:var(--tl);color:#fff;font-family:var(--fs);font-size:.95rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
-.subb:hover{background:var(--tld)}
-.subnote{margin-top:.6rem;font-size:.71rem;color:var(--i2);text-align:center;line-height:1.5}
 
-/* VIOLATION OVERLAY */
+.cand-nav-bar{display:flex;align-items:center;justify-content:space-between;margin-top:1.75rem;gap:1rem;flex-wrap:wrap}
+.cand-nav-btn{padding:.8rem 1.75rem;border:none;border-radius:var(--r);font-family:var(--fs);font-size:.9rem;font-weight:700;cursor:pointer;transition:background .15s}
+.cand-nav-btn.next{background:var(--tl);color:#fff}.cand-nav-btn.next:hover{background:var(--tld)}
+.cand-nav-btn.back{background:var(--sn);color:var(--ink);border:1.5px solid var(--bd)}.cand-nav-btn.back:hover{background:var(--bd)}
+.cand-nav-btn.submit{background:var(--tl);color:#fff;flex:1;justify-content:center;padding:.9rem}.cand-nav-btn.submit:hover{background:var(--tld)}
+.sub-note{font-size:.71rem;color:var(--i2);line-height:1.5;text-align:center;margin-top:.55rem}
+
+/* ── VIO OVERLAY ── */
 #vio-overlay{display:none;position:fixed;inset:0;z-index:900;flex-direction:column;align-items:center;justify-content:center;background:var(--or);color:#fff;text-align:center;padding:2rem}
 .vlbl{font-family:var(--fm);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.75;padding:4px 12px;border:1px solid rgba(255,255,255,.35);border-radius:20px;margin-bottom:1.2rem}
 .vh{font-family:var(--fd);font-size:2rem;font-weight:600;max-width:400px;line-height:1.2;margin-bottom:.45rem;letter-spacing:-.02em}
 .vd{font-size:.84rem;opacity:.8;max-width:380px;line-height:1.55;margin-bottom:1.65rem}
 .vcd{font-family:var(--fm);font-size:3rem;font-weight:500;opacity:.75;margin-bottom:1.2rem}
-.vok{padding:.6rem 2rem;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:var(--r);font-family:var(--fs);font-size:.87rem;font-weight:600;cursor:pointer;transition:background .15s}
-.vok:hover{background:rgba(255,255,255,.32)}
+.vok{padding:.6rem 2rem;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:var(--r);font-family:var(--fs);font-size:.87rem;font-weight:600;cursor:pointer}
 
-/* DONE */
+/* ── DONE ── */
 #done-screen{min-height:100vh;align-items:center;justify-content:center;padding:2rem 1.25rem;background:radial-gradient(ellipse 90% 50% at 50% 0%,var(--tll) 0%,transparent 55%),var(--pp)}
 .donebox{width:100%;max-width:420px;background:var(--w);border:1px solid var(--bd);border-radius:var(--rx);box-shadow:var(--shl);overflow:hidden}
 .donetop{padding:1.75rem;background:var(--tl);color:#fff;text-align:center}
@@ -242,27 +377,18 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
 .sendbox.sending{display:block;background:var(--aml);color:var(--am);border:1px solid #f0d080}
 .sendbox.sent{display:block;background:var(--tll);color:var(--tl);border:1px solid #9fd4cf}
 .sendbox.failed{display:block;background:var(--rdl);color:var(--rd);border:1px solid #f5bebe}
-.resendbtn{width:100%;margin-top:.55rem;padding:.62rem;background:var(--sn);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fs);font-size:.81rem;font-weight:500;color:var(--ink);cursor:pointer;transition:background .15s}
-.resendbtn:hover{background:var(--bd)}
+.resendbtn{width:100%;margin-top:.55rem;padding:.62rem;background:var(--sn);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fs);font-size:.81rem;font-weight:500;color:var(--ink);cursor:pointer}
 
-/* TOAST */
+/* ── SETUP OVERLAY ── */
+#ss-setup{display:none;position:fixed;inset:0;z-index:800;background:var(--pp);align-items:center;justify-content:center;padding:2rem}
+
+/* ── TOAST ── */
 #toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--fs);font-size:.81rem;padding:.48rem 1.15rem;border-radius:20px;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9999}
 #toast.show{opacity:1}
 .empty{padding:2.5rem;text-align:center;color:var(--i2);font-size:.85rem;line-height:1.6}
 .empty .ei{font-size:2rem;margin-bottom:.6rem}
 .spinner{width:18px;height:18px;border:2.5px solid var(--bd);border-top-color:var(--tl);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* SCREENSHOT GALLERY */
-.ss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin-top:.5rem}
-.ss-thumb{border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);cursor:pointer;transition:box-shadow .15s;aspect-ratio:16/9;background:var(--sn);position:relative}
-.ss-thumb:hover{box-shadow:var(--shl)}
-.ss-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.ss-thumb .ss-ts{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);color:#fff;font-family:var(--fm);font-size:.55rem;padding:3px 6px}
-#ss-lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.85);align-items:center;justify-content:center;padding:2rem}
-#ss-lightbox.show{display:flex}
-#ss-lightbox img{max-width:90vw;max-height:85vh;border-radius:var(--r);box-shadow:var(--shl)}
-#ss-lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.5rem;cursor:pointer;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
@@ -285,130 +411,158 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
   <button class="nbtn ghost" onclick="$('imp').click()">Import ↑</button>
 </nav>
 
-<!-- LIBRARY -->
-<div id="tab-library" class="screen active page">
-  <div class="pi">
-    <div class="ph">
-      <div><h1 class="pt">Test Library</h1><p class="ps">Your test bank is saved locally in this browser. Export to back up or share with colleagues.</p></div>
-      <button class="btn bt" onclick="openEditor(null)" style="flex-shrink:0;margin-top:.25rem">＋ New test</button>
+<!-- LIBRARY TAB -->
+<div id="tab-library" class="tab-page active">
+  <div class="scroll-area" style="background:var(--pp)">
+    <div class="page-inner">
+      <div class="ph">
+        <div><h1 class="pt">Test Library</h1><p class="ps">Create and manage your tests. Click ＋ New test to open the full-page editor.</p></div>
+        <button class="btn bt" onclick="newTest()" style="flex-shrink:0;margin-top:.25rem">＋ New test</button>
+      </div>
+      <div class="tgrid" id="tgrid"></div>
     </div>
-    <div class="tgrid" id="tgrid"></div>
   </div>
 </div>
 
-<!-- SESSION -->
-<div id="tab-session" class="screen page">
-  <div class="pi">
-    <div class="ph"><div><h1 class="pt">New Session</h1><p class="ps">Select a test, enter the candidate's name, and generate a monitored link to send them.</p></div></div>
-    <div class="panel">
-      <div class="phead"><span class="ptitle">Selected Test</span><button class="btn bg bsm" onclick="showTab('library')">Browse library ↗</button></div>
-      <div class="pb"><div class="pick-area" id="pick-area"><span>No test selected — browse the Test Library and click "Use for session"</span></div></div>
+<!-- EDITOR TAB (full-height) -->
+<div id="tab-editor" class="tab-page">
+
+  <!-- Editor top bar -->
+  <div class="editor-topbar">
+    <button class="btn bg bsm" onclick="leaveEditor()">← Library</button>
+    <input class="editor-name-input" id="ed-name" placeholder="Test name…" oninput="scheduleAutosave()"/>
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <div class="autosave-badge" id="as-badge"><div class="dot"></div><span id="as-txt">unsaved</span></div>
+      <button class="btn bt bsm" onclick="saveNow()">Save</button>
     </div>
-    <div class="panel">
-      <div class="phead"><span class="ptitle">Candidate</span></div>
-      <div class="pb">
-        <div class="field"><label>Candidate name</label><input type="text" id="s-name" placeholder="e.g. Jane Smith" autocomplete="off"/></div>
-        <div class="field"><label>Extra instructions <span style="font-weight:400;color:var(--i2)">(optional)</span></label><input type="text" id="s-extra" placeholder="e.g. You have 45 minutes for this test."/></div>
+  </div>
+
+  <!-- Editor layout: sidebar + canvas -->
+  <div class="editor-layout">
+
+    <!-- Sidebar: meta + outline -->
+    <div class="editor-sidebar">
+      <div class="sidebar-head">
+        <span class="ptitle">Test details</span>
+        <div class="field" style="margin-bottom:.6rem">
+          <label>Role / category</label>
+          <input type="text" id="ed-role" placeholder="e.g. Marketing Manager" oninput="scheduleAutosave()"/>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>Candidate instructions</label>
+          <textarea id="ed-instr" rows="2" placeholder="Shown to candidate before the test." oninput="scheduleAutosave()" style="font-size:.75rem"></textarea>
+        </div>
       </div>
-    </div>
-    <div class="panel">
-      <div class="phead"><span class="ptitle">Monitoring</span></div>
-      <div class="pb">
-        <div class="trow"><span class="tlbl">Detect tab switching & page leave</span><label class="tog"><input type="checkbox" id="m-tabs" checked/><span class="tog-rail"></span></label></div>
-        <div class="trow"><span class="tlbl">Block & log copy / paste / cut</span><label class="tog"><input type="checkbox" id="m-copy" checked/><span class="tog-rail"></span></label></div>
-        <div class="trow"><span class="tlbl">Block dev shortcuts (F12, Ctrl+U…)</span><label class="tog"><input type="checkbox" id="m-keys" checked/><span class="tog-rail"></span></label></div>
+      <div class="sidebar-head" style="padding:.65rem 1rem;border-top:1px solid var(--bd)">
+        <span class="ptitle" style="margin-bottom:0">Structure</span>
       </div>
+      <div class="sidebar-scroll" id="outline"></div>
     </div>
-    <div class="panel"><div class="pb"><button class="btn bp bfull" onclick="generateLink()">Generate candidate link →</button></div></div>
-    <div class="panel" id="last-link-panel" style="display:none">
-      <div class="phead"><span class="ptitle">Last Generated Link</span><button class="btn bg bsm" onclick="regen()">Regenerate</button></div>
-      <div class="pb">
-        <p style="font-size:.8rem;color:var(--i2);margin-bottom:.75rem;line-height:1.55">This link is still valid. Copy and send it to your candidate anytime.</p>
-        <div class="urow"><input type="text" id="last-url" readonly/><button class="cpbtn" id="last-cpbtn" onclick="copyLastLink()">Copy</button></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.65rem">
-          <div class="mtile"><div class="lbl">Candidate</div><div class="val" id="ll-cand">—</div></div>
-          <div class="mtile"><div class="lbl">Test</div><div class="val" id="ll-test">—</div></div>
-          <div class="mtile"><div class="lbl">Session ID</div><div class="val" id="ll-sid">—</div></div>
+
+    <!-- Canvas -->
+    <div class="editor-canvas" id="editor-canvas">
+      <div class="editor-canvas-inner" id="canvas-inner">
+        <!-- blocks rendered here -->
+      </div>
+      <!-- Add block bar -->
+      <div class="editor-canvas-inner">
+        <div class="add-block-bar" id="add-bar">
+          <button class="btn bds bsm" onclick="addBlock('section')">＋ Section</button>
+          <button class="btn bds bsm" onclick="addBlock('mc')">＋ Multiple choice</button>
+          <button class="btn bds bsm" onclick="addBlock('short')">＋ Short answer</button>
+          <button class="btn bds bsm" onclick="addBlock('long')">＋ Paragraph</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- REPORTS -->
-<div id="tab-reports" class="screen page">
-  <div class="pi">
-    <div class="ph"><div><h1 class="pt">Session Reports</h1><p class="ps">All submitted sessions saved in Firebase. Click any row to view full answers, score, and violations.</p></div></div>
-    <div id="rep-loading" style="text-align:center;padding:2.5rem;color:var(--i2)">
-      <div class="spinner" style="width:24px;height:24px;margin:0 auto .75rem"></div>
-      <div style="font-size:.83rem" id="rep-loading-msg">Connect Firebase in Settings to view reports.</div>
-    </div>
-    <div class="rlist" id="rlist" style="display:none"></div>
-  </div>
-</div>
-
-<!-- SETTINGS -->
-<div id="tab-settings" class="screen page">
-  <div class="pi">
-    <div class="ph"><div><h1 class="pt">Settings</h1><p class="ps">Configure Firebase (for saving session reports) and EmailJS (for emailing reports).</p></div></div>
-
-    <div class="panel">
-      <div class="phead"><span class="ptitle">Firebase — Report Storage</span></div>
-      <div class="pb">
-        <p style="font-size:.8rem;color:var(--i2);line-height:1.6;margin-bottom:1rem">Session reports are saved to Firestore and viewable in the Reports tab. Get these values from <strong>Firebase Console → Project Settings → Your Apps → Web</strong>.</p>
-        <div class="field"><label>API Key</label><input type="text" id="fb-key" placeholder="AIzaSy…"/></div>
-        <div class="r2">
-          <div class="field"><label>Auth Domain</label><input type="text" id="fb-auth" placeholder="project.firebaseapp.com"/></div>
-          <div class="field"><label>Project ID</label><input type="text" id="fb-proj" placeholder="my-project-id"/></div>
-        </div>
-        <div class="r2">
-          <div class="field"><label>Storage Bucket</label><input type="text" id="fb-bucket" placeholder="project.appspot.com"/></div>
-          <div class="field"><label>Messaging Sender ID</label><input type="text" id="fb-sender" placeholder="123456789"/></div>
-        </div>
-        <div class="field"><label>App ID</label><input type="text" id="fb-appid" placeholder="1:123…:web:abc…"/></div>
-        <button class="btn bt" onclick="saveAndConnect()" style="margin-top:.5rem">Save & Connect Firebase</button>
+<!-- SESSION TAB -->
+<div id="tab-session" class="tab-page">
+  <div class="scroll-area" style="background:var(--pp)">
+    <div class="page-inner">
+      <div class="ph"><div><h1 class="pt">New Session</h1><p class="ps">Select a test, enter the candidate name, and generate a short shareable link.</p></div></div>
+      <div class="panel">
+        <div class="phead"><span class="ptitle">Selected Test</span><button class="btn bg bsm" onclick="showTab('library')">Browse library ↗</button></div>
+        <div class="pb"><div class="pick-area" id="pick-area"><span>No test selected — go to Test Library and click "Use for session"</span></div></div>
       </div>
-    </div>
-
-    <div class="panel">
-      <div class="phead"><span class="ptitle">EmailJS — Report Emails</span></div>
-      <div class="pb">
-        <div class="field"><label>Mighty Ventures email (receives all reports)</label><input type="email" id="ej-email" placeholder="hiring@mightyventures.com"/></div>
-        <div class="r2">
-          <div class="field"><label>Service ID</label><input type="text" id="ej-svc" placeholder="service_xxxxxxx"/></div>
-          <div class="field"><label>Template ID</label><input type="text" id="ej-tpl" placeholder="template_xxxxxxx"/></div>
+      <div class="panel">
+        <div class="phead"><span class="ptitle">Candidate</span></div>
+        <div class="pb">
+          <div class="field"><label>Candidate name</label><input type="text" id="s-name" placeholder="e.g. Jane Smith" autocomplete="off"/></div>
+          <div class="field"><label>Extra instructions <span style="font-weight:400;color:var(--i2)">(optional)</span></label><input type="text" id="s-extra" placeholder="e.g. You have 45 minutes."/></div>
         </div>
-        <div class="field"><label>Public Key</label><input type="text" id="ej-key" placeholder="your_public_key"/>
-          <div class="hint">Template variables: {{candidate_name}} {{session_id}} {{score}} {{status}} {{critical}} {{warnings}} {{log}}</div></div>
-        <button class="btn bt" onclick="saveEJ()" style="margin-top:.5rem">Save EmailJS settings</button>
+      </div>
+      <div class="panel">
+        <div class="phead"><span class="ptitle">Monitoring</span></div>
+        <div class="pb">
+          <div class="trow"><span class="tlbl">Detect tab switching & page leave</span><label class="tog"><input type="checkbox" id="m-tabs" checked/><span class="tog-rail"></span></label></div>
+          <div class="trow"><span class="tlbl">Block & log copy / paste / cut</span><label class="tog"><input type="checkbox" id="m-copy" checked/><span class="tog-rail"></span></label></div>
+          <div class="trow"><span class="tlbl">Block dev shortcuts (F12, Ctrl+U…)</span><label class="tog"><input type="checkbox" id="m-keys" checked/><span class="tog-rail"></span></label></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="pb">
+          <button class="btn bp bfull" onclick="generateLink()">Generate candidate link →</button>
+          <div class="last-link-wrap" id="last-link-wrap" style="display:none">
+            <p style="font-size:.75rem;color:var(--i2);margin-bottom:.5rem;margin-top:.85rem">Last generated link — still valid:</p>
+            <div class="last-link-row"><input type="text" id="last-url" readonly/><button class="cpbtn" id="last-cpbtn" onclick="copyLast()">Copy</button></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.55rem">
+              <div class="mtile"><div class="lbl">Candidate</div><div class="val" id="ll-cand">—</div></div>
+              <div class="mtile"><div class="lbl">Test</div><div class="val" id="ll-test">—</div></div>
+              <div class="mtile"><div class="lbl">Session ID</div><div class="val" id="ll-sid">—</div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- EDITOR MODAL -->
-<div class="overlay" id="editor-modal">
-  <div class="modal wide">
-    <div class="mhead"><div><h2 id="ed-h">New Test</h2><p>Build your question set. Mark the correct answer on each MC question for auto-grading.</p></div><button class="mx" onclick="closeEditor()">✕</button></div>
-    <div class="mbody">
-      <div class="r2" style="margin-bottom:.85rem">
-        <div class="field"><label>Test name</label><input type="text" id="e-name" placeholder="e.g. Marketing Assessment" autocomplete="off"/></div>
-        <div class="field"><label>Role / category</label><input type="text" id="e-role" placeholder="e.g. Marketing Manager"/></div>
+<!-- REPORTS TAB -->
+<div id="tab-reports" class="tab-page">
+  <div class="scroll-area" style="background:var(--pp)">
+    <div class="page-inner">
+      <div class="ph"><div><h1 class="pt">Session Reports</h1><p class="ps">All submitted sessions from Firebase. Click any row to view full report.</p></div><button class="btn bg bsm" onclick="loadReports()">↺ Refresh</button></div>
+      <div id="rep-loading" style="text-align:center;padding:2.5rem;color:var(--i2)"><div class="spinner" style="width:24px;height:24px;margin:0 auto .75rem"></div><div style="font-size:.83rem" id="rep-msg">Connect Firebase in Settings to view reports.</div></div>
+      <div class="rlist" id="rlist" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS TAB -->
+<div id="tab-settings" class="tab-page">
+  <div class="scroll-area" style="background:var(--pp)">
+    <div class="page-inner">
+      <div class="ph"><div><h1 class="pt">Settings</h1><p class="ps">Configure Firebase (report storage) and EmailJS (report emails). Saved in your browser.</p></div></div>
+      <div class="panel">
+        <div class="phead"><span class="ptitle">Firebase Configuration</span></div>
+        <div class="pb">
+          <div class="field"><label>API Key</label><input type="text" id="fb-key" placeholder="AIzaSy…"/></div>
+          <div class="r2">
+            <div class="field"><label>Auth Domain</label><input type="text" id="fb-auth" placeholder="project.firebaseapp.com"/></div>
+            <div class="field"><label>Project ID</label><input type="text" id="fb-proj" placeholder="my-project-id"/></div>
+          </div>
+          <div class="r2">
+            <div class="field"><label>Storage Bucket</label><input type="text" id="fb-bucket" placeholder="project.appspot.com"/></div>
+            <div class="field"><label>Messaging Sender ID</label><input type="text" id="fb-sender" placeholder="123456789"/></div>
+          </div>
+          <div class="field"><label>App ID</label><input type="text" id="fb-appid" placeholder="1:123…:web:abc…"/></div>
+          <button class="btn bt" onclick="saveAndConnect()" style="margin-top:.5rem">Save & Connect Firebase</button>
+        </div>
       </div>
-      <div class="field" style="margin-bottom:1.1rem"><label>Instructions shown to candidate</label><textarea id="e-instr" rows="2" placeholder="e.g. Answer all questions. External resources are not permitted."></textarea></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem">
-        <span style="font-family:var(--fm);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--i2)">Questions</span>
-        <span id="e-qcount" style="font-family:var(--fm);font-size:.6rem;color:var(--i2)"></span>
-      </div>
-      <div id="e-qlist" class="qblist"></div>
-      <div style="display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap">
-        <button class="btn bds bsm" onclick="eAddQ('mc')">＋ Multiple choice</button>
-        <button class="btn bds bsm" onclick="eAddQ('short')">＋ Short answer</button>
-        <button class="btn bds bsm" onclick="eAddQ('long')">＋ Paragraph</button>
-      </div>
-      <div style="display:flex;gap:.6rem;justify-content:flex-end">
-        <button class="btn bg" onclick="closeEditor()">Cancel</button>
-        <button class="btn bt" onclick="saveTest()">Save to library</button>
+      <div class="panel">
+        <div class="phead"><span class="ptitle">EmailJS — Report Emails</span></div>
+        <div class="pb">
+          <div class="field"><label>Mighty Ventures email (receives reports)</label><input type="email" id="ej-email" placeholder="hiring@mightyventures.com"/></div>
+          <div class="r2">
+            <div class="field"><label>Service ID</label><input type="text" id="ej-svc" placeholder="service_xxxxxxx"/></div>
+            <div class="field"><label>Template ID</label><input type="text" id="ej-tpl" placeholder="template_xxxxxxx"/></div>
+          </div>
+          <div class="field"><label>Public Key</label><input type="text" id="ej-key" placeholder="your_public_key"/>
+            <div class="hint">Template vars: {{candidate_name}} {{session_id}} {{score}} {{status}} {{critical}} {{warnings}} {{log}}</div></div>
+          <button class="btn bt" onclick="saveEJ()" style="margin-top:.5rem">Save EmailJS settings</button>
+        </div>
       </div>
     </div>
   </div>
@@ -417,16 +571,16 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
 <!-- SHARE MODAL -->
 <div class="overlay" id="share-modal">
   <div class="modal">
-    <div class="mhead"><div><h2>Link ready ✓</h2><p>Send this to your candidate. All questions and settings are encoded in the URL.</p></div><button class="mx" onclick="$('share-modal').classList.remove('show')">✕</button></div>
+    <div class="mhead"><div><h2>Link ready ✓</h2><p>Short link — all test data is stored in Firebase, not the URL.</p></div><button class="mx" onclick="$('share-modal').classList.remove('show')">✕</button></div>
     <div class="mbody">
-      <div class="urow"><input type="text" id="share-url" readonly/><button class="cpbtn" id="cpbtn" onclick="copyLink()">Copy</button></div>
+      <div class="url-row"><input type="text" id="share-url" readonly/><button class="cpbtn" id="cpbtn" onclick="copyShare()">Copy</button></div>
       <div class="mmeta">
         <div class="mtile"><div class="lbl">Candidate</div><div class="val" id="m-cand">—</div></div>
         <div class="mtile"><div class="lbl">Test</div><div class="val" id="m-test">—</div></div>
         <div class="mtile"><div class="lbl">Session ID</div><div class="val" id="m-sid">—</div></div>
         <div class="mtile"><div class="lbl">Questions</div><div class="val" id="m-qs">—</div></div>
       </div>
-      <div class="mnote">ℹ️ The candidate sees only the test — no admin controls. Monitoring is active immediately since the test runs on the same page. The graded report is saved to Firebase and emailed to Mighty Ventures on submission.</div>
+      <div class="mnote">ℹ️ The candidate opens the link, shares their screen, and begins. The full test is loaded from Firebase — no data in the URL means it works on all browsers and email clients.</div>
     </div>
   </div>
 </div>
@@ -434,14 +588,13 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
 <!-- REPORT DETAIL MODAL -->
 <div class="overlay" id="rep-modal">
   <div class="modal wide">
-    <div class="mhead"><div><h2 id="rm-title">Report</h2><p id="rm-sub"></p></div><button class="mx" onclick="$('rep-modal').classList.remove('show')">✕</button></div>
+    <div class="mhead sticky"><div><h2 id="rm-title">Report</h2><p id="rm-sub"></p></div><button class="mx" onclick="$('rep-modal').classList.remove('show')">✕</button></div>
     <div class="mbody" id="rm-body"></div>
   </div>
 </div>
 
-<!-- CANDIDATE TEST -->
-<!-- SCREEN SHARE SETUP OVERLAY -->
-<div id="ss-setup" style="display:none;position:fixed;inset:0;z-index:800;background:var(--pp);align-items:center;justify-content:center;padding:2rem">
+<!-- SCREEN SHARE SETUP -->
+<div id="ss-setup">
   <div style="width:100%;max-width:480px;background:var(--w);border:1px solid var(--bd);border-radius:var(--rx);box-shadow:var(--shl);overflow:hidden">
     <div style="padding:1.75rem;background:var(--ink);color:#fff;text-align:center">
       <div style="font-size:2rem;margin-bottom:.5rem">📋</div>
@@ -449,22 +602,23 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
       <p style="font-size:.79rem;opacity:.75;line-height:1.5">This test is monitored by Mighty Ventures</p>
     </div>
     <div style="padding:1.5rem">
-      <div style="background:var(--rdl);border:1px solid #f5bebe;border-radius:var(--r);padding:.85rem 1rem;margin-bottom:1rem;font-size:.82rem;color:var(--rd);line-height:1.55">
-        <strong>⚠ You are being monitored.</strong> This session records:<br>
+      <div style="background:var(--rdl);border:1px solid #f5bebe;border-radius:var(--r);padding:.85rem 1rem;margin-bottom:.85rem;font-size:.82rem;color:var(--rd);line-height:1.6">
+        <strong>⚠ This session is fully monitored:</strong><br>
         • Tab switching and page navigation<br>
         • Copy, paste, and cut attempts<br>
-        • Random screenshots of your screen (every 3–5 minutes)<br>
-        • All activity is reported to Mighty Ventures
+        • Random screenshots every 3–5 minutes<br>
+        • All activity reported to Mighty Ventures
       </div>
       <div style="background:var(--aml);border:1px solid #f0d080;border-radius:var(--r);padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.8rem;color:var(--am);line-height:1.5">
-        <strong>Screen sharing required.</strong> You will be asked to share your screen. You must select your entire screen (not just a window or tab) to proceed.
+        <strong>Screen sharing required.</strong> You must share your entire screen (not a tab or window) to proceed.
       </div>
-      <button onclick="requestScreenShare()" style="width:100%;padding:.9rem;background:var(--tl);color:#fff;font-family:var(--fs);font-size:.92rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;transition:background .15s;margin-bottom:.5rem" onmouseover="this.style.background='#086359'" onmouseout="this.style.background='var(--tl)'">Share Screen & Begin Test →</button>
+      <button onclick="requestScreenShare()" style="width:100%;padding:.9rem;background:var(--tl);color:#fff;font-family:var(--fs);font-size:.92rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;margin-bottom:.5rem">Share Screen & Begin Test →</button>
       <div id="ss-err" style="display:none;font-size:.75rem;color:var(--rd);text-align:center;margin-top:.4rem;line-height:1.4"></div>
     </div>
   </div>
 </div>
 
+<!-- CANDIDATE TEST -->
 <div id="test-screen" class="screen">
   <div class="tstbar">
     <div class="tb-brand">Mighty Ventures</div>
@@ -472,25 +626,27 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
     <div class="tb-cn" id="tb-cn">—</div>
     <div style="display:flex;align-items:center;gap:.5rem">
       <div class="vbadge" id="vbadge">0 violations</div>
-      <div id="ss-badge" style="display:none;font-family:var(--fm);font-size:.6rem;font-weight:500;padding:3px 9px;border-radius:20px;background:#fdf0ff;border:1px solid #d8b4fe;color:#7c3aed">📸 Screen shared</div>
+      <div id="ss-badge" style="display:none;font-family:var(--fm);font-size:.6rem;font-weight:500;padding:3px 9px;border-radius:20px;background:#fdf0ff;border:1px solid #d8b4fe;color:#7c3aed">📸 Sharing</div>
     </div>
   </div>
-  <div style="background:#fff8f0;border-bottom:1px solid #fed7aa;padding:.65rem 1.5rem;display:flex;align-items:center;gap:.6rem">
-    <span style="font-size:.9rem">⚠️</span>
-    <span style="font-size:.78rem;color:#92400e;line-height:1.4"><strong>This session is monitored.</strong> Tab switching, copy/paste attempts, and random screenshots are recorded and reported to Mighty Ventures.</span>
+  <div class="mon-banner">
+    <span>⚠️</span>
+    <span><strong>This session is monitored.</strong> Tab switching, copy/paste attempts, and random screenshots are recorded and reported to Mighty Ventures.</span>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+  <div class="section-nav" id="section-nav" style="display:none">
+    <span id="sn-label">—</span>
+    <span id="sn-count" style="font-family:var(--fm);font-size:.65rem">—</span>
   </div>
   <div class="tmain">
     <div class="twrap">
-      <div class="thead">
+      <div class="thead" id="test-header-wrap">
         <h1 id="t-title">—</h1>
         <p class="tinstr" id="t-instr"></p>
         <div class="ctag">Candidate: <strong id="t-cn">—</strong></div>
       </div>
       <div id="qcon"></div>
-      <div style="margin-top:2rem">
-        <button class="subb" onclick="submitTest()">Submit Test →</button>
-        <p class="subnote">Once submitted, your answers are sent to Mighty Ventures. This cannot be undone.</p>
-      </div>
+      <div class="cand-nav-bar" id="cand-nav"></div>
     </div>
   </div>
 </div>
@@ -507,58 +663,56 @@ textarea.ansin{resize:vertical;min-height:110px;line-height:1.6}
 <!-- DONE -->
 <div id="done-screen" class="screen">
   <div class="donebox">
-    <div class="donetop"><div class="doneico">✅</div><h2>Test submitted</h2><p id="done-sub">Your responses have been sent to Mighty Ventures.</p></div>
+    <div class="donetop"><div class="doneico">✅</div><h2>Test submitted</h2><p id="done-sub">Responses sent to Mighty Ventures.</p></div>
     <div class="donebody">
       <div class="drow"><span>Candidate</span><span class="dv" id="d-name">—</span></div>
-      <div class="drow"><span>Questions answered</span><span class="dv" id="d-ans">—</span></div>
+      <div class="drow"><span>Answered</span><span class="dv" id="d-ans">—</span></div>
       <div class="drow"><span>Critical violations</span><span class="dv r" id="d-crit">0</span></div>
       <div class="drow"><span>Warnings</span><span class="dv a" id="d-warn">0</span></div>
-      <div class="drow"><span>Integrity status</span><span class="dv" id="d-status">—</span></div>
+      <div class="drow"><span>Status</span><span class="dv" id="d-status">—</span></div>
       <div class="sendbox" id="sendbox"></div>
-      <button class="resendbtn" onclick="sendEmail()">↺ Resend report email</button>
+      <button class="resendbtn" onclick="sendEmail()">↺ Resend report</button>
     </div>
   </div>
 </div>
 
+<div id="ss-lightbox"><button id="ss-lb-close" onclick="$('ss-lightbox').classList.remove('show')" style="position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.5rem;cursor:pointer;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center">✕</button><img id="ss-lb-img" src="" alt=""/></div>
 <div id="toast"></div>
 <input type="file" id="imp" accept=".json" style="display:none" onchange="handleImport(event)"/>
 
-<!-- Firebase SDK (module) -->
+<!-- Firebase SDK -->
 <script type="module">
 import{initializeApp,getApps}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getFirestore,collection,doc,setDoc,getDocs,onSnapshot,serverTimestamp,query,orderBy}
+import{getFirestore,collection,doc,setDoc,getDoc,getDocs,deleteDoc,query,orderBy,serverTimestamp}
   from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-window._FB={initializeApp,getApps,getFirestore,collection,doc,setDoc,getDocs,onSnapshot,serverTimestamp,query,orderBy};
-window._fbReady=true;
-window.dispatchEvent(new Event('fb-ready'));
+window._FB={initializeApp,getApps,getFirestore,collection,doc,setDoc,getDoc,getDocs,deleteDoc,query,orderBy,serverTimestamp};
+window._fbReady=true;window.dispatchEvent(new Event('fb-ready'));
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
 'use strict';
-/* ── micro helpers ── */
+/* ── helpers ── */
 const $=id=>document.getElementById(id);
 const gv=id=>($( id)?.value||'').trim();
 const gc=(id,d=true)=>$(id)?.checked??d;
 const st=(id,v)=>{try{$(id).textContent=String(v??'');}catch(e){}};
-let _tt;
-function toast(m,ms=2600){const t=$('toast');if(!t)return;t.textContent=m;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),ms);}
+let _tt;function toast(m,ms=2600){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),ms);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
-function genSid(){return'MV'+Date.now().toString(36).toUpperCase().slice(-4)+Math.random().toString(36).slice(2,5).toUpperCase();}
+function genSid(){return'MV'+Date.now().toString(36).toUpperCase().slice(-5)+Math.random().toString(36).slice(2,5).toUpperCase();}
 function fmtMs(ms){const s=Math.floor(Math.max(0,ms)/1000),m=Math.floor(s/60),h=Math.floor(m/60);return h>0?`${h}h ${m%60}m ${s%60}s`:`${m}m ${s%60}s`;}
 function avatarColor(s){const c=['#0b7b6e','#1a56cc','#a86200','#c42b2b','#6d28d9','#1a7a3c'];let h=0;for(const i of s)h=(h+i.charCodeAt(0))%c.length;return c[h];}
 function initials(n){return n.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||'').join('');}
 
-/* ── localStorage ── */
-const LS='mv_tests_v3', LSCFG='mv_cfg_v3';
+/* ── Storage ── */
+const LS='mv_tests_v4',LSCFG='mv_cfg_v3';
 function lsTests(){try{return JSON.parse(localStorage.getItem(LS)||'[]');}catch(e){return[];}}
 function lsSave(a){localStorage.setItem(LS,JSON.stringify(a));}
 function lsCfg(){try{return JSON.parse(localStorage.getItem(LSCFG)||'{}');}catch(e){return{};}}
 function lsSaveCfg(o){localStorage.setItem(LSCFG,JSON.stringify(o));}
 
-/* ── Firebase (reports only) ── */
+/* ── Firebase ── */
 let db=null;
 function setFbStatus(state,txt){
   const el=$('fb-status');if(!el)return;
@@ -568,8 +722,7 @@ function setFbStatus(state,txt){
 async function initFb(cfg){
   if(!cfg?.fbKey||!cfg?.fbProj){setFbStatus('','Firebase not configured');return;}
   try{
-    const FB=window._FB;
-    if(!FB){setFbStatus('err','SDK not loaded');return;}
+    const FB=window._FB;if(!FB){setFbStatus('err','SDK not loaded');return;}
     const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({
       apiKey:cfg.fbKey,authDomain:cfg.fbAuth,projectId:cfg.fbProj,
       storageBucket:cfg.fbBucket,messagingSenderId:cfg.fbSender,appId:cfg.fbAppId
@@ -579,41 +732,36 @@ async function initFb(cfg){
   }catch(e){setFbStatus('err','Connection failed');console.error('Firebase:',e);}
 }
 
-/* ════ LIBRARY STATE (must be declared before boot) ════ */
+/* ── Boot ── */
 let tests=[];
 let selectedTest=null;
-let editingId=null,eQs=[],eQSeq=0;
 
-/* ── boot ── */
 (function boot(){
   const cfg=lsCfg();
   loadSettingsForm(cfg);
+  tests=lsTests();
   renderLibrary();
+  // Restore last link
+  try{
+    const ll=JSON.parse(localStorage.getItem('mv_ll')||'null');
+    if(ll){$('last-url').value=ll.link;st('ll-cand',ll.name);st('ll-test',ll.test);st('ll-sid',ll.sid);$('last-link-wrap').style.display='block';}
+  }catch(e){}
   if(cfg.fbKey&&cfg.fbProj){
     if(window._fbReady)initFb(cfg);
     else window.addEventListener('fb-ready',()=>initFb(cfg),{once:true});
   }
-  // Restore last generated link
-  try{
-    const ll=JSON.parse(localStorage.getItem('mv_last_link')||'null');
-    if(ll&&ll.link){
-      $('last-url').value=ll.link;
-      st('ll-cand',ll.name||'—');st('ll-test',ll.test||'—');st('ll-sid',ll.sid||'—');
-      $('last-link-panel').style.display='block';
-    }
-  }catch(e){}
 })();
 
 /* ════ NAV ════ */
 window.showTab=function(name){
-  ['library','session','reports','settings'].forEach(t=>{
+  ['library','editor','session','reports','settings'].forEach(t=>{
     const el=$(`tab-${t}`);if(el)el.classList.toggle('active',t===name);
   });
   document.querySelectorAll('.ntab').forEach((b,i)=>{
     b.classList.toggle('on',['library','session','reports','settings'][i]===name);
   });
-  if(name==='reports') loadReports();
-  if(name==='session') renderPickArea();
+  if(name==='reports')loadReports();
+  if(name==='session')renderPickArea();
 };
 
 /* ════ SETTINGS ════ */
@@ -625,36 +773,33 @@ function loadSettingsForm(cfg=lsCfg()){
 window.saveAndConnect=function(){
   const cfg={...lsCfg(),fbKey:gv('fb-key'),fbAuth:gv('fb-auth'),fbProj:gv('fb-proj'),fbBucket:gv('fb-bucket'),fbSender:gv('fb-sender'),fbAppId:gv('fb-appid')};
   lsSaveCfg(cfg);db=null;
-  if(window._fbReady)initFb(cfg);
-  else window.addEventListener('fb-ready',()=>initFb(cfg),{once:true});
+  if(window._fbReady)initFb(cfg);else window.addEventListener('fb-ready',()=>initFb(cfg),{once:true});
   toast('Connecting to Firebase…');
 };
-window.saveEJ=function(){
-  lsSaveCfg({...lsCfg(),ejEmail:gv('ej-email'),ejSvc:gv('ej-svc'),ejTpl:gv('ej-tpl'),ejKey:gv('ej-key')});
-  toast('EmailJS settings saved ✓');
-};
+window.saveEJ=function(){lsSaveCfg({...lsCfg(),ejEmail:gv('ej-email'),ejSvc:gv('ej-svc'),ejTpl:gv('ej-tpl'),ejKey:gv('ej-key')});toast('EmailJS settings saved ✓');};
 
 /* ════ LIBRARY ════ */
-
 function renderLibrary(){
   tests=lsTests();
   const grid=$('tgrid');if(!grid)return;
   if(tests.length===0){
-    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="ei">📋</div>No tests yet. Click <strong>＋ New test</strong> to create your first one.</div>`;
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="ei">📋</div>No tests yet. Click <strong>＋ New test</strong> to open the editor.</div>`;
     return;
   }
   grid.innerHTML=tests.map(t=>{
-    const qc=t.questions?.length||0;
-    const pts=(t.questions||[]).reduce((s,q)=>s+(q.points||1),0);
+    const qc=(t.blocks||[]).filter(b=>b.type!=='section').length;
+    const sc=(t.blocks||[]).filter(b=>b.type==='section').length;
+    const pts=(t.blocks||[]).filter(b=>b.type!=='section').reduce((s,q)=>s+(q.points||1),0);
     return`<div class="tcard" id="tc-${t.id}">
-      <div class="tc-name">${esc(t.name)}</div>
+      <div class="tc-name">${esc(t.name||'Untitled test')}</div>
       <div class="tc-meta">
         ${t.role?`<span class="pill t">${esc(t.role)}</span>`:''}
+        ${sc?`<span class="pill">${sc} section${sc!==1?'s':''}</span>`:''}
         <span class="pill">${qc} question${qc!==1?'s':''}</span>
         <span class="pill">${pts} pt${pts!==1?'s':''}</span>
       </div>
       <div class="tc-acts">
-        <button class="btn bg bsm" onclick="openEditor('${t.id}')">Edit</button>
+        <button class="btn bg bsm" onclick="openEditor('${t.id}')">✏ Edit</button>
         <button class="btn bt bsm" onclick="pickForSession('${t.id}')">Use for session →</button>
         <button class="btn bda bsm" onclick="delTest('${t.id}')">Delete</button>
       </div>
@@ -669,21 +814,21 @@ window.pickForSession=function(id){
 function renderPickArea(){
   const a=$('pick-area');if(!a)return;
   if(selectedTest){
-    const t=selectedTest;
+    const t=selectedTest;const qc=(t.blocks||[]).filter(b=>b.type!=='section').length;
     a.className='pick-area picked';
-    a.innerHTML=`<div class="pick-name">${esc(t.name)}</div><div style="font-size:.74rem;font-family:var(--fm);color:var(--tl)">${t.questions?.length||0} questions · ${(t.questions||[]).reduce((s,q)=>s+(q.points||1),0)} pts total</div>`;
-  } else {
-    a.className='pick-area';
-    a.innerHTML='<span>No test selected — browse the Test Library and click "Use for session"</span>';
-  }
+    a.innerHTML=`<div class="pick-name">${esc(t.name||'Untitled')}</div><div style="font-size:.74rem;font-family:var(--fm);color:var(--tl)">${qc} questions · ${(t.blocks||[]).filter(b=>b.type!=='section').reduce((s,q)=>s+(q.points||1),0)} pts</div>`;
+  }else{a.className='pick-area';a.innerHTML='<span>No test selected — go to Test Library and click "Use for session"</span>';}
 }
-
-/* import/export */
+window.delTest=function(id){
+  if(!confirm('Delete this test? Cannot be undone.'))return;
+  lsSave(lsTests().filter(t=>t.id!==id));
+  if(selectedTest?.id===id){selectedTest=null;renderPickArea();}
+  tests=lsTests();renderLibrary();toast('Test deleted.');
+};
 window.exportTests=function(){
   const blob=new Blob([JSON.stringify({tests:lsTests(),exported:new Date().toISOString()},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mv-tests.json';
-  document.body.appendChild(a);a.click();setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(a.href);},1000);
-  toast('Tests exported.');
+  document.body.appendChild(a);a.click();setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(a.href);},1000);toast('Exported.');
 };
 window.handleImport=function(e){
   const file=e.target.files[0];if(!file)return;
@@ -691,214 +836,300 @@ window.handleImport=function(e){
   reader.onload=ev=>{
     try{
       const data=JSON.parse(ev.target.result);
-      const imported=(data.tests||[]).filter(t=>t.id&&t.name&&Array.isArray(t.questions));
+      const imported=(data.tests||[]).filter(t=>t.id&&Array.isArray(t.blocks));
       const existing=lsTests();let added=0;
       imported.forEach(t=>{if(!existing.find(x=>x.id===t.id)){existing.push(t);added++;}});
-      lsSave(existing);renderLibrary();
-      toast(`Imported ${added} test${added!==1?'s':''}.`);
-    }catch(err){toast('Import failed — invalid file.');}
-    e.target.value='';
-  };
-  reader.readAsText(file);
+      lsSave(existing);tests=lsTests();renderLibrary();toast(`Imported ${added} test${added!==1?'s':''}.`);
+    }catch(err){toast('Import failed.');}e.target.value='';
+  };reader.readAsText(file);
 };
 
-/* ════ EDITOR ════ */
+/* ════════════════════════════════════════
+   FULL-PAGE EDITOR
+════════════════════════════════════════ */
+let edId=null;        // test id being edited (null = new)
+let edBlocks=[];      // working array: {id, type, ...fields}
+let asTimer=null;     // autosave debounce
+let asStatus='unsaved';
+let dragSrc=null;     // drag-and-drop source block id
+
+/* ── Open / leave ── */
+window.newTest=function(){openEditor(null);};
 window.openEditor=function(id){
-  editingId=id;eQSeq=0;
+  edId=id;
   const t=id?lsTests().find(t=>t.id===id):null;
-  st('ed-h',t?'Edit Test':'New Test');
-  $('e-name').value=t?.name||'';$('e-role').value=t?.role||'';$('e-instr').value=t?.instructions||'';
-  eQs=t?JSON.parse(JSON.stringify(t.questions)):[];
-  eQs.forEach(q=>{if(!q._e)q._e=++eQSeq;});
-  renderEQs();$('editor-modal').classList.add('show');
+  $('ed-name').value=t?.name||'';
+  $('ed-role').value=t?.role||'';
+  $('ed-instr').value=t?.instructions||'';
+  edBlocks=t?JSON.parse(JSON.stringify(t.blocks||[])):[]; 
+  edBlocks.forEach(b=>{if(!b.id)b.id=genId();});
+  setAsStatus('saved');
+  renderCanvas();renderOutline();
+  // Show editor tab — swap nav tab highlight manually
+  ['tab-library','tab-session','tab-reports','tab-settings'].forEach(n=>{const el=$(n);if(el)el.classList.remove('active');});
+  $('tab-editor').classList.add('active');
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
 };
-window.closeEditor=function(){$('editor-modal').classList.remove('show');};
-
-window.eAddQ=function(type){
-  const q={_e:++eQSeq,id:genId(),type,text:'',points:1,
-    options:type==='mc'?[{text:'Option A',correct:false},{text:'Option B',correct:false}]:[],correctAnswer:''};
-  eQs.push(q);renderEQs();
-  setTimeout(()=>{const el=$('eq-'+q._e);if(el)el.classList.add('open');},30);
+window.leaveEditor=function(){
+  if(asStatus!=='saved'&&!confirm('You have unsaved changes. Leave anyway?'))return;
+  showTab('library');
 };
 
-function renderEQs(){
-  st('e-qcount',eQs.length+(eQs.length===1?' question':' questions'));
-  const list=$('e-qlist');list.innerHTML='';
-  eQs.forEach((q,idx)=>{
-    const tl=q.type==='mc'?'Multiple Choice':q.type==='short'?'Short Answer':'Paragraph';
-    const div=document.createElement('div');div.className='qr';div.id='eq-'+q._e;
-    let body=`<div class="qrb"><div class="field" style="margin-bottom:.65rem"><label>Question text</label>
-      <textarea rows="2" placeholder="Enter question…" oninput="eqT(${q._e},this.value)">${esc(q.text)}</textarea></div>`;
-    if(q.type==='mc'){
-      body+=`<div class="field"><label>Options <small style="font-weight:400;color:var(--i2)">(click "Mark correct" on the right answer)</small></label>
-        <div class="optlist" id="eo-${q._e}">`;
-      q.options.forEach((o,oi)=>{
-        body+=`<div class="optrow"><input type="text" value="${esc(o.text)}" placeholder="Option ${oi+1}" oninput="eqO(${q._e},${oi},this.value)"/>
-          <button class="cbtn${o.correct?' yes':''}" onclick="eqC(${q._e},${oi})">${o.correct?'✓ Correct':'Mark correct'}</button>
-          <button class="odl" onclick="eqDO(${q._e},${oi})">✕</button></div>`;
-      });
-      body+=`</div><button class="btn bds bsm" style="margin-top:.4rem" onclick="eqAO(${q._e})">＋ Add option</button></div>`;
-    } else if(q.type==='short'){
-      body+=`<div style="padding:.65rem;background:var(--gnl);border:1px solid var(--gn);border-radius:var(--r);margin-bottom:.5rem">
-        <div class="field" style="margin-bottom:0"><label style="color:var(--gn)">Correct answer (case-insensitive exact match)</label>
-        <input type="text" value="${esc(q.correctAnswer||'')}" placeholder="Expected answer…" oninput="eqCA(${q._e},this.value)"/></div></div>`;
-    } else {
-      body+=`<div style="padding:.5rem .65rem;background:var(--aml);border:1px solid #f0d080;border-radius:var(--r);font-size:.73rem;color:var(--am)">Paragraph answers require manual grading.</div>`;
-    }
-    body+=`<div class="ptsrow"><label>Points</label><input type="number" value="${q.points||1}" min="0" max="100" oninput="eqPts(${q._e},this.value)" style="width:70px"/></div></div>`;
-    div.innerHTML=`<div class="qrh" onclick="eqTog(${q._e})">
-      <div class="qnum">${idx+1}</div><div class="qprev">${esc(q.text)||'Click to edit…'}</div>
-      <div class="qtag">${tl}</div>
-      <button class="qdelbtn" onclick="event.stopPropagation();eqDel(${q._e})">✕</button>
-    </div>${body}`;
-    list.appendChild(div);
-  });
+/* ── Autosave ── */
+window.scheduleAutosave=function(){
+  setAsStatus('saving');
+  clearTimeout(asTimer);
+  asTimer=setTimeout(()=>saveNow(),2000);
+};
+function setAsStatus(s,msg){
+  asStatus=s;const b=$('as-badge');if(!b)return;
+  b.className='autosave-badge '+(s==='saved'?'saved':s==='saving'?'saving':s==='error'?'error':'');
+  st('as-txt',msg||(s==='saved'?'All changes saved':s==='saving'?'Saving…':s==='error'?'Save failed':'unsaved'));
 }
-function eqTog(e){const el=$('eq-'+e);if(el)el.classList.toggle('open');}
-function eqT(e,v){const q=eQs.find(q=>q._e===e);if(!q)return;q.text=v;const el=$('eq-'+e);if(el)el.querySelector('.qprev').textContent=v||'Click to edit…';}
-function eqO(e,oi,v){const q=eQs.find(q=>q._e===e);if(q?.options?.[oi])q.options[oi].text=v;}
-function eqC(e,oi){
-  const q=eQs.find(q=>q._e===e);if(!q)return;
-  q.options.forEach((o,i)=>o.correct=(i===oi));
-  renderEQs();setTimeout(()=>{const el=$('eq-'+e);if(el)el.classList.add('open');},20);
-}
-function eqAO(e){const q=eQs.find(q=>q._e===e);if(!q)return;q.options.push({text:'',correct:false});renderEQs();setTimeout(()=>{const el=$('eq-'+e);if(el)el.classList.add('open');},20);}
-function eqDO(e,oi){const q=eQs.find(q=>q._e===e);if(!q)return;if(q.options.length<=1){toast('Need at least one option.');return;}q.options.splice(oi,1);renderEQs();setTimeout(()=>{const el=$('eq-'+e);if(el)el.classList.add('open');},20);}
-function eqCA(e,v){const q=eQs.find(q=>q._e===e);if(q)q.correctAnswer=v;}
-function eqPts(e,v){const q=eQs.find(q=>q._e===e);if(q)q.points=Math.max(0,parseInt(v)||0);}
-function eqDel(e){eQs=eQs.filter(q=>q._e!==e);renderEQs();}
-
-window.saveTest=function(){
-  const name=gv('e-name');
-  if(!name){toast('Test needs a name.');return;}
-  if(eQs.length===0){toast('Add at least one question.');return;}
-  if(eQs.find(q=>!q.text.trim())){toast('Some questions have no text.');return;}
-  const clean=eQs.map(q=>({id:q.id||genId(),type:q.type,text:q.text,points:q.points||1,options:q.options||[],correctAnswer:q.correctAnswer||''}));
-  const t={id:editingId||genId(),name,role:gv('e-role'),instructions:gv('e-instr'),questions:clean,updatedAt:Date.now()};
+window.saveNow=function(){
+  const name=gv('ed-name');
+  const t={id:edId||genId(),name:name||'Untitled test',role:gv('ed-role'),instructions:gv('ed-instr'),blocks:edBlocks,updatedAt:Date.now()};
+  if(!edId)edId=t.id;
   const all=lsTests();const idx=all.findIndex(x=>x.id===t.id);
   if(idx>-1)all[idx]=t;else all.push(t);
-  lsSave(all);renderLibrary();closeEditor();toast('Test saved ✓');
+  lsSave(all);tests=lsTests();renderLibrary();setAsStatus('saved');
 };
 
-window.delTest=function(id){
-  if(!confirm('Delete this test? This cannot be undone.'))return;
-  lsSave(lsTests().filter(t=>t.id!==id));
-  if(selectedTest?.id===id){selectedTest=null;renderPickArea();}
-  renderLibrary();toast('Test deleted.');
+/* ── Add block ── */
+window.addBlock=function(type,afterId=null){
+  const b={id:genId(),type,text:'',points:1,options:[],correctAnswer:''};
+  if(type==='section')b.text='Section';
+  if(type==='mc')b.options=[{text:'Option A',correct:false},{text:'Option B',correct:false}];
+  if(afterId){const i=edBlocks.findIndex(x=>x.id===afterId);edBlocks.splice(i+1,0,b);}
+  else edBlocks.push(b);
+  renderCanvas();renderOutline();scheduleAutosave();
+  // scroll to new block
+  setTimeout(()=>{const el=$('eb-'+b.id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},50);
 };
 
-/* ════ SESSION ════ */
-window.generateLink=function(){
+/* ── Remove block ── */
+window.removeBlock=function(id){
+  edBlocks=edBlocks.filter(b=>b.id!==id);
+  renderCanvas();renderOutline();scheduleAutosave();
+};
+
+/* ── Field updates ── */
+window.ebSetText=function(id,v){const b=edBlocks.find(b=>b.id===id);if(b){b.text=v;refreshOutlineItem(id);scheduleAutosave();}};
+window.ebSetPts=function(id,v){const b=edBlocks.find(b=>b.id===id);if(b){b.points=Math.max(0,parseInt(v)||0);scheduleAutosave();}};
+window.ebSetType=function(id,v){
+  const b=edBlocks.find(b=>b.id===id);if(!b)return;
+  b.type=v;
+  if(v==='mc'&&!b.options?.length)b.options=[{text:'Option A',correct:false},{text:'Option B',correct:false}];
+  b.correctAnswer='';
+  renderCanvas();renderOutline();scheduleAutosave();
+};
+window.ebSetOpt=function(id,oi,v){const b=edBlocks.find(b=>b.id===id);if(b?.options?.[oi])b.options[oi].text=v;scheduleAutosave();};
+window.ebToggleCorrect=function(id,oi){
+  const b=edBlocks.find(b=>b.id===id);if(!b)return;
+  b.options.forEach((o,i)=>o.correct=(i===oi));
+  // re-render just buttons
+  b.options.forEach((o,i)=>{const btn=$(`ecb-${id}-${i}`);if(btn){btn.className='correct-toggle'+(o.correct?' yes':'');btn.textContent=o.correct?'✓ Correct':'Mark correct';}});
+  scheduleAutosave();
+};
+window.ebAddOpt=function(id){const b=edBlocks.find(b=>b.id===id);if(!b)return;b.options.push({text:'',correct:false});renderCanvas();scheduleAutosave();setTimeout(()=>{const el=$('eb-'+id);if(el)el.scrollIntoView({block:'nearest'});},30);};
+window.ebDelOpt=function(id,oi){
+  const b=edBlocks.find(b=>b.id===id);if(!b)return;
+  if(b.options.length<=1){toast('Need at least one option.');return;}
+  b.options.splice(oi,1);renderCanvas();scheduleAutosave();
+};
+window.ebSetCA=function(id,v){const b=edBlocks.find(b=>b.id===id);if(b){b.correctAnswer=v;scheduleAutosave();}};
+
+/* ── Render canvas ── */
+function renderCanvas(){
+  const inner=$('canvas-inner');if(!inner)return;
+  inner.innerHTML='';
+  edBlocks.forEach(b=>{
+    const el=document.createElement('div');
+    el.id='eb-'+b.id;
+    el.setAttribute('draggable','true');
+    el.addEventListener('dragstart',onDragStart);
+    el.addEventListener('dragover',onDragOver);
+    el.addEventListener('dragleave',onDragLeave);
+    el.addEventListener('drop',onDrop);
+    el.addEventListener('dragend',onDragEnd);
+
+    if(b.type==='section'){
+      el.className='section-block';
+      el.innerHTML=`<span class="section-drag-icon">⠿</span>
+        <input value="${esc(b.text)}" placeholder="Section title…" oninput="ebSetText('${b.id}',this.value)" style="flex:1;background:transparent;border:none;outline:none;font-family:var(--fd);font-size:1.1rem;font-weight:600;color:#fff"/>
+        <button class="section-del" onclick="removeBlock('${b.id}')">✕</button>`;
+    } else {
+      const tl=b.type==='mc'?'Multiple Choice':b.type==='short'?'Short Answer':'Paragraph';
+      let body='';
+      if(b.type==='mc'){
+        body+=`<div class="mc-editor-opts" id="eo-${b.id}">`;
+        b.options.forEach((o,oi)=>{
+          body+=`<div class="mc-editor-row">
+            <input type="text" value="${esc(o.text)}" placeholder="Option ${oi+1}" oninput="ebSetOpt('${b.id}',${oi},this.value)"/>
+            <button id="ecb-${b.id}-${oi}" class="correct-toggle${o.correct?' yes':''}" onclick="ebToggleCorrect('${b.id}',${oi})">${o.correct?'✓ Correct':'Mark correct'}</button>
+            <button class="mc-opt-del" onclick="ebDelOpt('${b.id}',${oi})">✕</button>
+          </div>`;
+        });
+        body+=`</div><button class="btn bds bsm" style="margin-top:.4rem" onclick="ebAddOpt('${b.id}')">＋ Add option</button>`;
+      } else if(b.type==='short'){
+        body+=`<div class="correct-answer-box"><div class="field" style="margin-bottom:0">
+          <label style="color:var(--gn)">Correct answer (case-insensitive exact match)</label>
+          <input type="text" value="${esc(b.correctAnswer||'')}" placeholder="Expected answer…" oninput="ebSetCA('${b.id}',this.value)"/>
+        </div></div>`;
+      } else {
+        body+=`<div class="para-note">Paragraph answers are graded manually.</div>`;
+      }
+      el.className='q-block';
+      el.innerHTML=`<div class="q-block-header">
+        <span class="q-drag">⠿</span>
+        <select class="q-type-sel" onchange="ebSetType('${b.id}',this.value)">
+          <option value="mc"${b.type==='mc'?' selected':''}>Multiple Choice</option>
+          <option value="short"${b.type==='short'?' selected':''}>Short Answer</option>
+          <option value="long"${b.type==='long'?' selected':''}>Paragraph</option>
+        </select>
+        <span style="font-family:var(--fm);font-size:.62rem;color:var(--i2);margin-left:.25rem">pts:</span>
+        <input class="q-pts-input" type="number" value="${b.points||1}" min="0" max="100" oninput="ebSetPts('${b.id}',this.value)"/>
+        <div class="q-header-spacer"></div>
+        <button class="q-del-btn" onclick="removeBlock('${b.id}')">✕</button>
+      </div>
+      <div class="q-body">
+        <input class="q-text-input" value="${esc(b.text)}" placeholder="Question text…" oninput="ebSetText('${b.id}',this.value)"/>
+        ${body}
+      </div>`;
+    }
+    inner.appendChild(el);
+  });
+}
+
+function refreshOutlineItem(id){
+  const el=$('oi-'+id);if(!el)return;
+  const b=edBlocks.find(b=>b.id===id);if(!b)return;
+  const txt=el.querySelector('.outline-text');if(txt)txt.textContent=b.text||'(empty)';
+}
+
+/* ── Render outline ── */
+function renderOutline(){
+  const ol=$('outline');if(!ol)return;
+  ol.innerHTML='';
+  let qIdx=0;
+  edBlocks.forEach((b,i)=>{
+    const div=document.createElement('div');
+    div.id='oi-'+b.id;
+    div.className='outline-item'+(b.type==='section'?' section-item':'');
+    const num=b.type==='section'?'§':(++qIdx);
+    div.innerHTML=`<span class="drag-handle">⠿</span>
+      <span class="outline-num${b.type==='section'?' sec':''}">${num}</span>
+      <span class="outline-text">${esc(b.text||'(empty)')}</span>`;
+    div.onclick=()=>{const el=$('eb-'+b.id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});};
+    ol.appendChild(div);
+  });
+}
+
+/* ── Drag & drop ── */
+function onDragStart(e){dragSrc=this.id.replace('eb-','');this.style.opacity='.5';}
+function onDragEnd(e){this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));}
+function onDragOver(e){e.preventDefault();this.classList.add('drag-over');}
+function onDragLeave(){this.classList.remove('drag-over');}
+function onDrop(e){
+  e.preventDefault();this.classList.remove('drag-over');
+  const targetId=this.id.replace('eb-','');
+  if(!dragSrc||dragSrc===targetId)return;
+  const si=edBlocks.findIndex(b=>b.id===dragSrc);
+  const ti=edBlocks.findIndex(b=>b.id===targetId);
+  if(si<0||ti<0)return;
+  const [moved]=edBlocks.splice(si,1);
+  edBlocks.splice(ti,0,moved);
+  renderCanvas();renderOutline();scheduleAutosave();
+  dragSrc=null;
+}
+
+/* ════ SESSION GENERATION ════ */
+window.generateLink=async function(){
   const name=gv('s-name');
   if(!selectedTest){toast('Select a test from the library first.');return;}
   if(!name){toast('Enter the candidate name.');return;}
+  if(!db){toast('Firebase not connected — check Settings.');return;}
   const cfg=lsCfg();
   const sid=genSid();
-  const payload={
-    sid,name,title:selectedTest.name,
-    instr:[selectedTest.instructions,gv('s-extra')].filter(Boolean).join(' '),
+  const sessionDoc={
+    sid,candidateName:name,testId:selectedTest.id,testName:selectedTest.name,
+    instructions:[selectedTest.instructions,gv('s-extra')].filter(Boolean).join(' '),
+    blocks:selectedTest.blocks||[],
     email:cfg.ejEmail||'',svc:cfg.ejSvc||'',tpl:cfg.ejTpl||'',key:cfg.ejKey||'',
-    // Firebase config embedded so candidate's browser can save report
     fbKey:cfg.fbKey||'',fbAuth:cfg.fbAuth||'',fbProj:cfg.fbProj||'',
     fbBucket:cfg.fbBucket||'',fbSender:cfg.fbSender||'',fbAppId:cfg.fbAppId||'',
     tabs:gc('m-tabs'),copy:gc('m-copy'),keys:gc('m-keys'),
-    qs:(selectedTest.questions||[]).map(q=>({id:q.id,type:q.type,text:q.text,points:q.points||1,options:q.options||[],correctAnswer:q.correctAnswer||''}))
+    status:'pending',createdAt:null
   };
-  const encoded=btoa(encodeURIComponent(JSON.stringify(payload)));
-  const link=location.origin+location.pathname+'?d='+encoded;
+  try{
+    const FB=window._FB;
+    await FB.setDoc(FB.doc(db,'sessions',sid),{...sessionDoc,createdAt:FB.serverTimestamp()});
+  }catch(e){toast('Failed to save session: '+e.message);return;}
+  const link=location.origin+location.pathname+'?s='+sid;
   $('share-url').value=link;
-  st('m-cand',name);st('m-test',selectedTest.name);
-  st('m-sid',sid);st('m-qs',payload.qs.length+' question'+(payload.qs.length!==1?'s':''));
+  st('m-cand',name);st('m-test',selectedTest.name);st('m-sid',sid);
+  const qc=(selectedTest.blocks||[]).filter(b=>b.type!=='section').length;
+  st('m-qs',qc+' question'+(qc!==1?'s':''));
   $('share-modal').classList.add('show');
-  // Persist link in session tab
-  $('last-url').value=link;
-  st('ll-cand',name);st('ll-test',selectedTest.name);st('ll-sid',sid);
-  $('last-link-panel').style.display='block';
-  // Save to localStorage so it survives page refresh
-  localStorage.setItem('mv_last_link',JSON.stringify({link,name,test:selectedTest.name,sid}));
+  // Persist last link
+  $('last-url').value=link;st('ll-cand',name);st('ll-test',selectedTest.name);st('ll-sid',sid);
+  $('last-link-wrap').style.display='block';
+  localStorage.setItem('mv_ll',JSON.stringify({link,name,test:selectedTest.name,sid}));
 };
-window.regen=function(){$('share-modal').classList.add('show');};
-window.copyLastLink=function(){
-  const url=$('last-url').value,btn=$('last-cpbtn');
-  navigator.clipboard.writeText(url).then(()=>{btn.textContent='Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok');},2000);})
-  .catch(()=>{$('last-url').select();document.execCommand('copy');toast('Copied!');});
-};
-window.copyLink=function(){
+window.copyShare=function(){
   const url=$('share-url').value,btn=$('cpbtn');
-  navigator.clipboard.writeText(url).then(()=>{btn.textContent='Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok');},2000);})
-  .catch(()=>{$('share-url').select();document.execCommand('copy');toast('Copied!');});
+  navigator.clipboard.writeText(url).then(()=>{btn.textContent='Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok');},2000);}).catch(()=>{$('share-url').select();document.execCommand('copy');toast('Copied!');});
+};
+window.copyLast=function(){
+  const url=$('last-url').value,btn=$('last-cpbtn');
+  navigator.clipboard.writeText(url).then(()=>{btn.textContent='Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok');},2000);}).catch(()=>{$('last-url').select();document.execCommand('copy');toast('Copied!');});
 };
 
 /* ════ REPORTS ════ */
 async function loadReports(){
-  const list=$('rlist'),loading=$('rep-loading'),msg=$('rep-loading-msg');
-  if(!db){
-    st('rep-loading-msg','Connect Firebase in Settings to view reports.');
-    if(loading)loading.style.display='block';if(list)list.style.display='none';return;
-  }
-  if(loading){loading.style.display='block';st('rep-loading-msg','Loading reports…');}
-  if(list)list.style.display='none';
+  const list=$('rlist'),loading=$('rep-loading'),msg=$('rep-msg');
+  if(!db){st('rep-msg','Connect Firebase in Settings to view reports.');$('rep-loading').style.display='block';$('rlist').style.display='none';return;}
+  loading.style.display='block';st('rep-msg','Loading reports…');list.style.display='none';
   try{
     const FB=window._FB;
     const snap=await FB.getDocs(FB.query(FB.collection(db,'sessions'),FB.orderBy('submittedAt','desc')));
-    const reports=snap.docs.map(d=>({...d.data(),id:d.id}));
-    if(loading)loading.style.display='none';
-    if(list)list.style.display='flex';
-    renderReports(reports);
-  }catch(e){
-    if(loading){loading.style.display='block';st('rep-loading-msg','Failed to load reports — check Firebase settings.');}
-    console.error('Reports:',e);
-  }
+    const reports=snap.docs.filter(d=>d.data().status==='submitted').map(d=>({...d.data(),id:d.id}));
+    loading.style.display='none';list.style.display='flex';
+    if(reports.length===0){list.innerHTML='<div class="empty"><div class="ei">📊</div>No submitted sessions yet.</div>';return;}
+    list.innerHTML=reports.map(r=>`
+      <div class="rrow" onclick='openReport(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
+        <div class="rav" style="background:${avatarColor(r.candidateName||'?')}">${initials(r.candidateName||'?')}</div>
+        <div class="ri"><div class="ri-name">${esc(r.candidateName||'—')}</div><div class="ri-meta">${esc(r.testName||'—')} · ${esc(r.sid||'—')}</div></div>
+        <div class="ri-right">
+          <span class="sbadge ${r.integrityStatus||'CLEAN'}">${r.integrityStatus||'CLEAN'}</span>
+          ${r.score&&r.score!=='—'?`<span style="font-family:var(--fm);font-size:.68rem;color:var(--i2)">${esc(r.score)}</span>`:''}
+        </div>
+      </div>`).join('');
+  }catch(e){loading.style.display='block';st('rep-msg','Failed to load: '+e.message);}
 }
-
-function renderReports(reports){
-  const list=$('rlist');if(!list)return;
-  if(reports.length===0){list.innerHTML='<div class="empty"><div class="ei">📊</div>No sessions submitted yet.</div>';return;}
-  list.innerHTML=reports.map(r=>{
-    const safeR=JSON.stringify(r).replace(/"/g,'&quot;');
-    return`<div class="rrow" onclick='openReport(${safeR})'>
-      <div class="rav" style="background:${avatarColor(r.name||'?')}">${initials(r.name||'?')}</div>
-      <div class="ri">
-        <div class="ri-name">${esc(r.name||'Unknown')}</div>
-        <div class="ri-meta">${esc(r.title||'—')} · ${esc(r.sid||'—')}</div>
-      </div>
-      <div class="ri-right">
-        <span class="sbadge ${r.status||'CLEAN'}">${r.status||'CLEAN'}</span>
-        ${r.score&&r.score!=='—'?`<span class="score-lbl">${esc(r.score)}</span>`:''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
 window.openReport=function(r){
-  st('rm-title',r.name||'Report');
-  st('rm-sub',`${r.title||'—'} · ${r.sid||'—'}`);
-  const body=$('rm-body');
-  let html='';
+  st('rm-title',r.candidateName||'Report');st('rm-sub',(r.testName||'—')+' · '+(r.sid||'—'));
+  const body=$('rm-body');let html='';
   if(r.score&&r.score!=='—'){
-    html+=`<div class="scsumm"><div><div class="scbig">${esc(r.score)}</div><div class="scdetail">Auto-graded score (MC only)</div></div>
-      <span class="sbadge ${r.status||'CLEAN'}">${r.status||'CLEAN'}</span></div>`;
+    html+=`<div style="background:var(--tll);border:1px solid var(--tl);border-radius:var(--r);padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
+      <div><div style="font-family:var(--fm);font-size:1.4rem;font-weight:500;color:var(--tl)">${esc(r.score)}</div><div style="font-size:.78rem;color:var(--tl);opacity:.85">Auto-graded (MC only)</div></div>
+      <span class="sbadge ${r.integrityStatus||'CLEAN'}">${r.integrityStatus||'CLEAN'}</span></div>`;
   }
-  html+=`<div class="rsec"><div class="rstitle">Session Details</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
-      ${[['Candidate',r.name],['Session ID',r.sid],['Test',r.title],['Duration',r.duration],['Answered',r.answered],['Critical violations',r.critical],['Warnings',r.warnings]]
-        .map(([k,v])=>`<div style="padding:.45rem .7rem;background:var(--sn);border:1px solid var(--bd);border-radius:var(--r);font-size:.82rem">
-          <div style="font-family:var(--fm);font-size:.57rem;color:var(--i2);text-transform:uppercase;letter-spacing:.08em">${k}</div>
-          <div style="font-weight:600;margin-top:2px">${esc(String(v??'—'))}</div></div>`).join('')}
-    </div></div>`;
+  html+=`<div class="rsec"><div class="rstitle">Session</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+    ${[['Candidate',r.candidateName],['Session ID',r.sid],['Test',r.testName],['Duration',r.duration],['Answered',r.answered],['Critical',r.critical],['Warnings',r.warnings]]
+      .map(([k,v])=>`<div style="padding:.45rem .7rem;background:var(--sn);border:1px solid var(--bd);border-radius:var(--r);font-size:.82rem"><div style="font-family:var(--fm);font-size:.57rem;color:var(--i2);text-transform:uppercase;letter-spacing:.08em">${k}</div><div style="font-weight:600;margin-top:2px">${esc(String(v??'—'))}</div></div>`).join('')}
+  </div></div>`;
   if(r.answers?.length){
     html+=`<div class="rsec"><div class="rstitle">Answers</div>`;
     r.answers.forEach((a,i)=>{
       let res='',rc='m';
       if(a.type==='mc'){res=a.isCorrect?'✓ Correct':'✗ Incorrect';rc=a.isCorrect?'c':'w';}
-      else if(a.type==='short'){res=a.answer==='(no answer)'?'—':a.isCorrect?'✓ Correct':'✗ Incorrect';rc=a.isCorrect?'c':'w';}
+      else if(a.type==='short'){res=a.isCorrect?'✓ Correct':'✗ Incorrect';rc=a.isCorrect?'c':'w';}
       else res='Manual review';
-      html+=`<div class="acard">
-        <div class="acard-head">
-          <div class="qnum" style="flex-shrink:0">${i+1}</div>
-          <div style="flex:1;font-size:.82rem;font-weight:600;color:var(--ink)">${esc(a.text||'')}</div>
-          <span class="ares ${rc}">${res}</span>
-        </div>
+      html+=`<div class="acard"><div class="acard-head">
+        <div class="qnn" style="flex-shrink:0;width:22px;height:22px;border-radius:4px">${i+1}</div>
+        <div style="flex:1;font-size:.82rem;font-weight:600;color:var(--ink)">${esc(a.text||'')}</div>
+        <span class="ares ${rc}">${res}</span></div>
         <div class="acard-body"><strong>Answer:</strong> ${esc(a.answer||'(no answer)')}
           ${(!a.isCorrect&&a.correctAnswer&&a.type!=='long')?`<br><strong style="color:var(--gn)">Correct:</strong> ${esc(a.correctAnswer)}`:''}
         </div></div>`;
@@ -907,180 +1138,207 @@ window.openReport=function(r){
   }
   if(r.violations?.length){
     html+=`<div class="rsec"><div class="rstitle">Violation Log</div>`;
-    r.violations.forEach(v=>{
-      html+=`<div class="vline ${v.level||''}">[${esc(v.time)}] [${esc((v.level||'').toUpperCase())}] ${esc(v.title)}${v.detail?' — '+esc(v.detail):''}</div>`;
-    });
+    r.violations.forEach(v=>{html+=`<div class="vline ${v.level||''}">[${esc(v.time)}] [${esc((v.level||'').toUpperCase())}] ${esc(v.title)}${v.detail?' — '+esc(v.detail):''}</div>`;});
     html+=`</div>`;
   }
-  // Screenshots from Firestore
-  if(r.screenshotCount>0||r.sid){
-    html+=`<div class="rsec"><div class="rstitle">Screenshots</div>
-      <div id="ss-loading-${esc(r.sid)}" style="font-size:.78rem;color:var(--i2)">Loading screenshots…</div>
-      <div class="ss-grid" id="ss-grid-${esc(r.sid)}"></div></div>`;
+  if(r.screenshotCount>0){
+    html+=`<div class="rsec"><div class="rstitle">Screenshots (${r.screenshotCount})</div>
+      <div id="ssl-loading" style="font-size:.78rem;color:var(--i2)">Loading…</div>
+      <div class="ss-grid" id="ssl-grid"></div></div>`;
   }
-  body.innerHTML=html;
-  $('rep-modal').classList.add('show');
-  // Async load screenshots for this session
-  if(r.sid) loadSessionScreenshots(r.sid);
+  body.innerHTML=html;$('rep-modal').classList.add('show');
+  if(r.screenshotCount>0)loadScreenshots(r.sid);
 };
-
-async function loadSessionScreenshots(sid){
+async function loadScreenshots(sid){
   if(!db)return;
   try{
     const FB=window._FB;
     const snap=await FB.getDocs(FB.query(FB.collection(db,'screenshots'),FB.orderBy('timestamp','asc')));
     const shots=snap.docs.filter(d=>d.data().sessionId===sid).map(d=>d.data());
-    const loadEl=$(`ss-loading-${sid}`);const gridEl=$(`ss-grid-${sid}`);
+    const loadEl=$('ssl-loading'),gridEl=$('ssl-grid');
     if(loadEl)loadEl.style.display='none';
     if(!gridEl)return;
-    if(shots.length===0){
-      gridEl.innerHTML='<div style="font-size:.78rem;color:var(--i2)">No screenshots saved for this session.</div>';
-      return;
-    }
-    gridEl.innerHTML=shots.map((s,i)=>`
-      <div class="ss-thumb" onclick="openLightbox('${encodeURIComponent(s.dataUrl)}')">
-        <img src="${s.dataUrl}" alt="Screenshot ${i+1}" loading="lazy"/>
-        <div class="ss-ts">${esc(s.ts||'—')}</div>
-      </div>`).join('');
-  }catch(e){
-    const loadEl=$(`ss-loading-${sid}`);
-    if(loadEl)loadEl.textContent='Could not load screenshots.';
-    console.error('Screenshots:',e);
-  }
+    if(!shots.length){if(loadEl){loadEl.style.display='block';loadEl.textContent='No screenshots found.';} return;}
+    gridEl.innerHTML=shots.map((s,i)=>`<div class="ss-thumb" onclick="openLb('${encodeURIComponent(s.dataUrl)}')"><img src="${s.dataUrl}" loading="lazy"/><div class="ss-ts">${esc(s.ts||'—')}</div></div>`).join('');
+  }catch(e){const el=$('ssl-loading');if(el)el.textContent='Failed to load screenshots.';}
 }
-window.openLightbox=function(encodedUrl){
-  $('ss-lb-img').src=decodeURIComponent(encodedUrl);
-  $('ss-lightbox').classList.add('show');
-};
-
-/* ════ DECODE & BOOT CANDIDATE ════ */
-function decodeSession(){
-  const p=new URLSearchParams(location.search),d=p.get('d');
-  if(!d)return null;
-  try{return JSON.parse(decodeURIComponent(atob(d)));}catch(e){return null;}
-}
-(function(){
-  const s=decodeSession();
-  if(!s)return;
-  const nav=$('main-nav');if(nav)nav.style.display='none';
-  ['tab-library','tab-session','tab-reports','tab-settings'].forEach(id=>{
-    const el=$(id);if(el){el.style.display='none';el.classList.remove('active');}
-  });
-  startSession(s);
-})();
+window.openLb=function(enc){$('ss-lb-img').src=decodeURIComponent(enc);$('ss-lightbox').classList.add('show');};
 
 /* ════ CANDIDATE SESSION ════ */
 let SC=null,sessStart=null,monitoring=false,ended=false;
 let crit=0,warns=0,evLog=[];
 let vPending=false,vIv=null,lastBlur=0,rptPayload=null;
-
-/* ── Screen capture ── */
 let ssStream=null,ssInterval=null,screenshots=[];
+// Sectioned navigation
+let sections=[]; // [{title, blocks:[]}]
+let curSection=0;
 
+/* Decode session from URL */
+async function loadCandidateSession(sid){
+  // Try to init Firebase using URL param or wait for sdk
+  // Session stored in Firestore — fetch it
+  const tryLoad=async()=>{
+    const FB=window._FB;if(!FB)return false;
+    try{
+      // We don't have credentials yet — session doc contains them
+      // Use a minimal anonymous init attempt — project ID is in URL? No.
+      // Strategy: show a loading screen, wait for FB SDK, then need credentials
+      // Better: embed projectId + apiKey in URL as minimal params
+      const urlP=new URLSearchParams(location.search);
+      const fbKey=urlP.get('k'),fbProj=urlP.get('p');
+      if(!fbKey||!fbProj){
+        // Try cached credentials
+        const cached=lsCfg();
+        if(!cached.fbKey||!cached.fbProj)return false;
+        const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({apiKey:cached.fbKey,authDomain:cached.fbAuth,projectId:cached.fbProj,storageBucket:cached.fbBucket,messagingSenderId:cached.fbSender,appId:cached.fbAppId});
+        const fdb=FB.getFirestore(app);
+        const snap=await FB.getDoc(FB.doc(fdb,'sessions',sid));
+        if(!snap.exists())return false;
+        return snap.data();
+      }
+      // Use minimal creds from URL
+      const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({apiKey:decodeURIComponent(fbKey),projectId:decodeURIComponent(fbProj)});
+      const fdb=FB.getFirestore(app);
+      const snap=await FB.getDoc(FB.doc(fdb,'sessions',sid));
+      if(!snap.exists())return false;
+      return snap.data();
+    }catch(e){console.error('load session:',e);return false;}
+  };
+  return new Promise(resolve=>{
+    if(window._fbReady){tryLoad().then(resolve);}
+    else window.addEventListener('fb-ready',()=>tryLoad().then(resolve),{once:true});
+  });
+}
+
+(function(){
+  const p=new URLSearchParams(location.search);
+  const sid=p.get('s');
+  if(!sid)return;
+  // Candidate mode
+  const nav=$('main-nav');if(nav)nav.style.display='none';
+  ['tab-library','tab-editor','tab-session','tab-reports','tab-settings'].forEach(id=>{const el=$(id);if(el){el.style.display='none';el.classList.remove('active');}});
+  // Show loading state
+  document.body.style.background='var(--pp)';
+  const loadDiv=document.createElement('div');
+  loadDiv.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;font-family:var(--fs)';
+  loadDiv.innerHTML='<div class="spinner" style="width:28px;height:28px"></div><div style="font-size:.85rem;color:var(--i2)">Loading your test…</div>';
+  document.body.appendChild(loadDiv);
+  loadCandidateSession(sid).then(data=>{
+    document.body.removeChild(loadDiv);
+    if(!data){
+      document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:var(--fs);color:var(--rd);font-size:.9rem;padding:2rem;text-align:center">Session not found or expired. Please contact Mighty Ventures.</div>';
+      return;
+    }
+    SC={...data,sid};
+    startSession();
+  });
+})();
+
+function startSession(){
+  $('ss-setup').style.display='flex';
+}
+
+/* ── Screen share ── */
 window.requestScreenShare=async function(){
   const errEl=$('ss-err');
   try{
-    ssStream=await navigator.mediaDevices.getDisplayMedia({
-      video:{displaySurface:'monitor'},audio:false
-    });
-    // Check they shared entire screen, not just a tab/window
+    ssStream=await navigator.mediaDevices.getDisplayMedia({video:{displaySurface:'monitor'},audio:false});
     const track=ssStream.getVideoTracks()[0];
     const settings=track.getSettings();
-    // displaySurface may be 'monitor', 'window', or 'browser'
-    // We warn but don't block if not 'monitor' (some browsers don't expose this)
     if(settings.displaySurface&&settings.displaySurface!=='monitor'){
-      if(errEl){errEl.style.display='block';errEl.textContent='Please share your entire screen, not just a window or tab. Click Share Screen again.';}
+      if(errEl){errEl.style.display='block';errEl.textContent='Please share your entire screen, not a window or tab. Click the button again.';}
       ssStream.getTracks().forEach(t=>t.stop());ssStream=null;return;
     }
-    // Stream obtained — hide setup, show test
     $('ss-setup').style.display='none';
     if($('ss-badge'))$('ss-badge').style.display='flex';
     beginTest();
-    // Schedule random screenshots every 180–300 seconds (3–5 minutes)
-    function scheduleNext(){
-      const delay=(180+Math.random()*120)*1000;
-      ssInterval=setTimeout(async()=>{
-        if(!ssStream||ended)return;
-        await captureScreenshot();
-        scheduleNext();
-      },delay);
-    }
-    scheduleNext();
-    // If candidate stops sharing, log it
-    track.addEventListener('ended',()=>{
-      if(!ended) fire('critical','Screen share stopped','Candidate stopped sharing their screen');
-      stopScreenShare();
-    });
-  }catch(e){
-    if(errEl){
-      errEl.style.display='block';
-      errEl.textContent=e.name==='NotAllowedError'?'Permission denied. You must share your screen to take this test.':'Could not start screen sharing: '+e.message;
-    }
-  }
+    function schedNext(){ssInterval=setTimeout(async()=>{if(!ssStream||ended)return;await captureScreenshot();schedNext();},(180+Math.random()*120)*1000);}
+    schedNext();
+    track.addEventListener('ended',()=>{if(!ended)fire('critical','Screen share stopped','Candidate stopped sharing their screen');stopSS();});
+  }catch(e){if(errEl){errEl.style.display='block';errEl.textContent=e.name==='NotAllowedError'?'Permission denied. Screen sharing is required for this test.':'Screen sharing failed: '+e.message;}}
 };
-
 async function captureScreenshot(){
   if(!ssStream||ended)return;
   try{
     const track=ssStream.getVideoTracks()[0];
     const cap=new ImageCapture(track);
-    const bitmap=await cap.grabFrame();
+    const bmp=await cap.grabFrame();
     const canvas=document.createElement('canvas');
-    // Scale down to ~1280px wide for storage
-    const scale=Math.min(1,1280/bitmap.width);
-    canvas.width=Math.round(bitmap.width*scale);
-    canvas.height=Math.round(bitmap.height*scale);
-    canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);
-    const dataUrl=canvas.toDataURL('image/jpeg',0.7);
+    const scale=Math.min(1,1280/bmp.width);
+    canvas.width=Math.round(bmp.width*scale);canvas.height=Math.round(bmp.height*scale);
+    canvas.getContext('2d').drawImage(bmp,0,0,canvas.width,canvas.height);
+    const dataUrl=canvas.toDataURL('image/jpeg',.7);
     const ts=new Date().toLocaleTimeString();
     screenshots.push({dataUrl,ts});
-    logEv('info','Screenshot captured',`At ${ts}`);
-    // Save to Firestore if configured
+    logEv('info','Screenshot captured','At '+ts);
     if(SC?.fbKey&&SC?.fbProj){
       try{
         const FB=window._FB;if(!FB)return;
-        const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({
-          apiKey:SC.fbKey,authDomain:SC.fbAuth,projectId:SC.fbProj,
-          storageBucket:SC.fbBucket,messagingSenderId:SC.fbSender,appId:SC.fbAppId
-        });
+        const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({apiKey:SC.fbKey,authDomain:SC.fbAuth,projectId:SC.fbProj,storageBucket:SC.fbBucket,messagingSenderId:SC.fbSender,appId:SC.fbAppId});
         const fdb=FB.getFirestore(app);
-        const ssId=SC.sid+'_ss_'+Date.now();
-        await FB.setDoc(FB.doc(fdb,'screenshots',ssId),{
-          sessionId:SC.sid,candidateName:SC.name,
-          timestamp:FB.serverTimestamp(),ts,dataUrl
-        });
-      }catch(e){console.warn('Screenshot save failed:',e);}
+        await FB.setDoc(FB.doc(fdb,'screenshots',SC.sid+'_ss_'+Date.now()),{sessionId:SC.sid,candidateName:SC.candidateName,timestamp:FB.serverTimestamp(),ts,dataUrl});
+      }catch(e){console.warn('Screenshot save:',e);}
     }
-  }catch(e){console.warn('Screenshot failed:',e);}
+  }catch(e){console.warn('Capture:',e);}
 }
+function stopSS(){if(ssStream){ssStream.getTracks().forEach(t=>t.stop());ssStream=null;}if(ssInterval){clearTimeout(ssInterval);ssInterval=null;}}
 
-function stopScreenShare(){
-  if(ssStream){ssStream.getTracks().forEach(t=>t.stop());ssStream=null;}
-  if(ssInterval){clearTimeout(ssInterval);ssInterval=null;}
-}
-
+/* ── Build sections & begin ── */
 function beginTest(){
   sessStart=Date.now();
-  st('t-title',SC.title||'Candidate Test');
-  st('t-instr',SC.instr||'Answer all questions honestly and to the best of your ability.');
-  st('tb-cn',SC.name);st('t-cn',SC.name);
-  renderCandQs(SC.qs||[]);
+  st('t-title',SC.testName||'Candidate Test');
+  st('t-instr',SC.instructions||'Answer all questions honestly and to the best of your ability.');
+  st('tb-cn',SC.candidateName);st('t-cn',SC.candidateName);
+
+  // Build section groups
+  sections=[];let cur={title:null,blocks:[]};
+  (SC.blocks||[]).forEach(b=>{
+    if(b.type==='section'){
+      if(cur.blocks.length||cur.title!==null)sections.push(cur);
+      cur={title:b.text||'',blocks:[]};
+    } else {cur.blocks.push(b);}
+  });
+  if(cur.blocks.length||cur.title!==null)sections.push(cur);
+  if(sections.length===0)sections=[{title:null,blocks:[]}];
+  // If first section has no title and no blocks, remove it
+  if(sections.length>1&&sections[0].title===null&&sections[0].blocks.length===0)sections.shift();
+
+  curSection=0;
   $('test-screen').classList.add('active');
   attachMon(SC);monitoring=true;
-  logEv('info','Session started',`Candidate: ${SC.name} | ID: ${SC.sid}`);
+  renderSection();
+  logEv('info','Session started',`Candidate: ${SC.candidateName} | ID: ${SC.sid}`);
 }
 
-function startSession(cfg){
-  SC=cfg;
-  // Show pre-test setup overlay
-  $('ss-setup').style.display='flex';
-}
+function renderSection(){
+  const sec=sections[curSection];const total=sections.length;
+  const pct=Math.round(((curSection)/total)*100);
+  $('prog-bar').style.width=pct+'%';
 
-function renderCandQs(qs){
-  const c=$('qcon');c.innerHTML='';
-  qs.forEach((q,i)=>{
+  const snav=$('section-nav');
+  if(total>1){
+    snav.style.display='flex';
+    st('sn-label',sec.title||`Section ${curSection+1}`);
+    st('sn-count',`${curSection+1} of ${total}`);
+  } else {snav.style.display='none';}
+
+  // Show/hide test header on first section only
+  const hw=$('test-header-wrap');
+  if(hw)hw.style.display=curSection===0?'block':'none';
+
+  const container=$('qcon');container.innerHTML='';
+  if(sec.title&&curSection>0){
+    const sh=document.createElement('div');sh.className='section-heading';sh.textContent=sec.title;container.appendChild(sh);
+  }
+
+  let globalIdx=0;
+  for(let s=0;s<curSection;s++)globalIdx+=sections[s].blocks.length;
+
+  sec.blocks.forEach((q,i)=>{
     const card=document.createElement('div');card.className='qcard';
-    const ptl=qs.length>1?`${q.points||1} pt${(q.points||1)!==1?'s':''}`:'';
+    card.style.animationDelay=(i*.05)+'s';
+    const qNum=globalIdx+i+1;
+    const ptl=q.points&&q.points!==1?`${q.points} pts`:'';
     let ans='';
     if(q.type==='mc'){
       ans=`<div class="mcopts">`+(q.options||[]).map((o,oi)=>`
@@ -1088,24 +1346,35 @@ function renderCandQs(qs){
           <input type="radio" name="q${q.id}" value="${oi}"/>
           <div class="mcc"></div><span>${esc(o.text||o)}</span>
         </label>`).join('')+`</div>`;
-    }else if(q.type==='short'){
-      ans=`<input type="text" class="ansin" id="ans-${q.id}" placeholder="Your answer…"/>`;
-    }else{
-      ans=`<textarea class="ansin" id="ans-${q.id}" rows="5" placeholder="Your answer…"></textarea>`;
-    }
-    card.innerHTML=`<div class="qct"><div class="qnn">${i+1}</div>
+    }else if(q.type==='short'){ans=`<input type="text" class="ansin" id="ans-${q.id}" placeholder="Your answer…"/>`;
+    }else{ans=`<textarea class="ansin" id="ans-${q.id}" rows="5" placeholder="Your answer…"></textarea>`;}
+    card.innerHTML=`<div class="qct"><div class="qnn">${qNum}</div>
       <div style="flex:1"><div class="qtxt">${esc(q.text)}</div>${ptl?`<div class="qptsl">${ptl}</div>`:''}</div>
     </div><div class="qca">${ans}</div>`;
-    c.appendChild(card);
+    container.appendChild(card);
   });
+
+  // Navigation buttons
+  const nav=$('cand-nav');nav.innerHTML='';
+  const isLast=curSection===sections.length-1;
+  if(curSection>0){const b=document.createElement('button');b.className='cand-nav-btn back';b.textContent='← Back';b.onclick=()=>{curSection--;renderSection();window.scrollTo(0,0);};nav.appendChild(b);}
+  if(!isLast){
+    const b=document.createElement('button');b.className='cand-nav-btn next';b.textContent='Next →';
+    b.onclick=()=>{curSection++;renderSection();window.scrollTo(0,0);};nav.appendChild(b);
+  } else {
+    const b=document.createElement('button');b.className='cand-nav-btn submit';b.textContent='Submit Test →';
+    b.onclick=submitTest;nav.appendChild(b);
+    const note=document.createElement('p');note.className='sub-note';note.textContent='Once submitted, your answers are sent to Mighty Ventures. This cannot be undone.';nav.appendChild(note);
+  }
 }
+
 window.pickMC=function(qId,oi){
   if(ended)return;
-  (SC?.qs?.find(q=>q.id===qId)?.options||[]).forEach((_,i)=>{const el=$(`mc-${qId}-${i}`);if(el)el.classList.remove('sel');});
+  (SC?.blocks?.find(q=>q.id===qId)?.options||[]).forEach((_,i)=>{const el=$(`mc-${qId}-${i}`);if(el)el.classList.remove('sel');});
   const sel=$(`mc-${qId}-${oi}`);if(sel){sel.classList.add('sel');sel.querySelector('input').checked=true;}
 };
 
-/* monitoring */
+/* ── Monitoring ── */
 function attachMon(cfg){
   if(cfg.tabs){document.addEventListener('visibilitychange',onVis);window.addEventListener('blur',onBlur);}
   if(cfg.copy){document.addEventListener('copy',onCopy);document.addEventListener('paste',onPaste);document.addEventListener('cut',onCut);}
@@ -1121,7 +1390,7 @@ function onUnload(e){if(ended||!monitoring)return;fire('critical','Page closed',
 function onVis(){if(!monitoring||ended||!document.hidden)return;fire('critical','Tab switched','Candidate navigated away from the test page.');}
 function onBlur(){if(!monitoring||ended)return;const now=Date.now();if(now-lastBlur<2000)return;lastBlur=now;if(document.hidden)return;fire('warning','Window lost focus','Candidate may have switched to another application.');}
 function onCopy(e){if(!monitoring||ended)return;e.preventDefault();fire('warning','Copy attempt','Candidate tried to copy text.');}
-function onPaste(e){if(!monitoring||ended)return;e.preventDefault();fire('warning','Paste attempt','Candidate tried to paste content.');}
+function onPaste(e){if(!monitoring||ended)return;e.preventDefault();fire('warning','Paste attempt','Candidate tried to paste.');}
 function onCut(e){if(!monitoring||ended)return;e.preventDefault();fire('warning','Cut attempt','Candidate tried to cut text.');}
 function onKey(e){
   if(!monitoring||ended)return;
@@ -1137,58 +1406,53 @@ function fire(lvl,title,detail){
   showVio(title,detail);
 }
 function showVio(title,detail){
-  if(vPending)return;vPending=true;
-  st('vio-h',title);st('vio-d',detail||'');
-  $('vio-overlay').style.display='flex';
-  let c=5;st('vio-cd',c);
+  if(vPending)return;vPending=true;st('vio-h',title);st('vio-d',detail||'');
+  $('vio-overlay').style.display='flex';let c=5;st('vio-cd',c);
   if(vIv)clearInterval(vIv);
   vIv=setInterval(()=>{try{c--;st('vio-cd',c);if(c<=0){clearInterval(vIv);vIv=null;dismissVio();}}catch(e){clearInterval(vIv);dismissVio();}},1000);
 }
 window.dismissVio=function(){if(vIv){clearInterval(vIv);vIv=null;}$('vio-overlay').style.display='none';vPending=false;};
 function logEv(l,t,d){evLog.push({time:new Date().toLocaleTimeString(),level:l,title:t,detail:d||''});}
 
-/* submit */
-window.submitTest=function(){
+/* ── Submit ── */
+function submitTest(){
   if(ended)return;
   if(!confirm('Submit your test? This cannot be undone.'))return;
   endSession();
-};
+}
 function collectGrade(){
-  return(SC?.qs||[]).map(q=>{
+  return(SC?.blocks||[]).filter(b=>b.type!=='section').map(q=>{
     let answer='(no answer)',isCorrect=false;
     if(q.type==='mc'){
       const chk=document.querySelector(`input[name="q${q.id}"]:checked`);
       if(chk){const oi=parseInt(chk.value);const opt=q.options[oi];answer=opt?.text||opt||'';isCorrect=!!(opt?.correct);}
-    }else{
-      const raw=$('ans-'+q.id)?.value?.trim()||'';answer=raw||'(no answer)';
-    }
+    }else{const raw=$('ans-'+q.id)?.value?.trim()||'';answer=raw||'(no answer)';}
     return{qid:q.id,type:q.type,text:q.text,answer,isCorrect,points:q.points||1,correctAnswer:q.correctAnswer||''};
   });
 }
 function endSession(){
   if(ended)return;ended=true;monitoring=false;
   if(vIv){clearInterval(vIv);vIv=null;}
-  stopScreenShare();
-  detachMon();$('vio-overlay').style.display='none';
+  stopSS();detachMon();$('vio-overlay').style.display='none';
   const elapsed=Date.now()-sessStart;
   const answers=collectGrade();
   let earned=0,possible=0;
   answers.forEach(a=>{if(a.type==='mc'){possible+=a.points||1;if(a.isCorrect)earned+=a.points||1;}});
   const hasPara=answers.some(a=>a.type==='long');
-  const scoreStr=possible>0?`${earned}/${possible} (${Math.round(earned/possible*100)}%)${hasPara?' + manual':''}` :'—';
+  const scoreStr=possible>0?`${earned}/${possible} (${Math.round(earned/possible*100)}%)${hasPara?' + manual':''}`:'—';
   const answered=answers.filter(a=>a.answer!=='(no answer)').length;
-  const status=crit>=2?'FLAGGED':crit>=1||warns>=2?'REVIEW':'CLEAN';
+  const integrityStatus=crit>=2?'FLAGGED':crit>=1||warns>=2?'REVIEW':'CLEAN';
 
-  st('d-name',SC.name);st('d-ans',`${answered}/${answers.length}`);
-  st('d-crit',crit);st('d-warn',warns);st('d-status',status);
-  $('d-status').className='dv '+(status==='CLEAN'?'g':status==='REVIEW'?'a':'r');
-  st('done-sub',status==='CLEAN'?'Your responses have been submitted to Mighty Ventures.':`Submitted. ${crit} critical violation${crit!==1?'s':''} recorded.`);
+  st('d-name',SC.candidateName);st('d-ans',`${answered}/${answers.length}`);
+  st('d-crit',crit);st('d-warn',warns);st('d-status',integrityStatus);
+  $('d-status').className='dv '+(integrityStatus==='CLEAN'?'g':integrityStatus==='REVIEW'?'a':'r');
+  st('done-sub',integrityStatus==='CLEAN'?'Your responses have been submitted to Mighty Ventures.':`Submitted. ${crit} critical violation${crit!==1?'s':''} recorded.`);
 
   let rpt=`MIGHTY VENTURES — TEST SESSION REPORT\n${'─'.repeat(46)}\n`;
-  rpt+=`Candidate  : ${SC.name}\nSession ID : ${SC.sid}\nTest       : ${SC.title}\n`;
+  rpt+=`Candidate  : ${SC.candidateName}\nSession ID : ${SC.sid}\nTest       : ${SC.testName}\n`;
   rpt+=`Duration   : ${fmtMs(elapsed)}\nAnswered   : ${answered}/${answers.length}\n`;
   if(possible>0)rpt+=`Score      : ${scoreStr}\n`;
-  rpt+=`Critical   : ${crit}\nWarnings   : ${warns}\nStatus     : ${status}\n`;
+  rpt+=`Critical   : ${crit}\nWarnings   : ${warns}\nStatus     : ${integrityStatus}\n`;
   rpt+=`${'─'.repeat(46)}\nANSWERS:\n`;
   answers.forEach((a,i)=>{
     rpt+=`\nQ${i+1} [${a.type.toUpperCase()}] (${a.points}pt): ${a.text}\n  Answer: ${a.answer}\n`;
@@ -1197,28 +1461,27 @@ function endSession(){
   });
   rpt+=`\n${'─'.repeat(46)}\nVIOLATION LOG:\n`;
   evLog.forEach(e=>rpt+=`[${e.time}] [${e.level.toUpperCase().padEnd(8)}] ${e.title}${e.detail?' — '+e.detail:''}\n`);
+  rptPayload={rpt,scoreStr,integrityStatus,elapsed,answers};
 
-  rptPayload={rpt,scoreStr,status,elapsed,answers};
-  saveToFirebase({sid:SC.sid,name:SC.name,title:SC.title,duration:fmtMs(elapsed),
-    answered:`${answered}/${answers.length}`,score:scoreStr,status,critical:crit,warnings:warns,
-    answers,violations:evLog,screenshotCount:screenshots.length});
+  // Update Firestore session doc with results
+  if(SC?.fbKey&&SC?.fbProj){
+    try{
+      const FB=window._FB;if(FB){
+        const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({apiKey:SC.fbKey,authDomain:SC.fbAuth,projectId:SC.fbProj,storageBucket:SC.fbBucket,messagingSenderId:SC.fbSender,appId:SC.fbAppId});
+        const fdb=FB.getFirestore(app);
+        FB.setDoc(FB.doc(fdb,'sessions',SC.sid),{
+          status:'submitted',submittedAt:FB.serverTimestamp(),
+          duration:fmtMs(elapsed),answered:`${answered}/${answers.length}`,
+          score:scoreStr,integrityStatus,critical:crit,warnings:warns,
+          answers,violations:evLog,screenshotCount:screenshots.length
+        },{merge:true}).catch(e=>console.error('Save:',e));
+      }
+    }catch(e){console.error(e);}
+  }
 
   $('test-screen').classList.remove('active');
   $('done-screen').classList.add('active');
   setTimeout(()=>sendEmail(),700);
-}
-
-async function saveToFirebase(docData){
-  if(!SC?.fbKey||!SC?.fbProj)return;
-  try{
-    const FB=window._FB;if(!FB)return;
-    const app=FB.getApps().length?FB.getApps()[0]:FB.initializeApp({
-      apiKey:SC.fbKey,authDomain:SC.fbAuth,projectId:SC.fbProj,
-      storageBucket:SC.fbBucket,messagingSenderId:SC.fbSender,appId:SC.fbAppId
-    });
-    const fdb=FB.getFirestore(app);
-    await FB.setDoc(FB.doc(fdb,'sessions',SC.sid),{...docData,submittedAt:FB.serverTimestamp()});
-  }catch(e){console.error('Firestore save:',e);}
 }
 
 window.sendEmail=async function(){
@@ -1227,17 +1490,11 @@ window.sendEmail=async function(){
   if(!SC.email){sb.textContent='No recipient email set.';sb.className='sendbox failed';return;}
   sb.textContent='Sending report to Mighty Ventures…';sb.className='sendbox sending';
   try{
-    emailjs.init(SC.key);
-    const rp=rptPayload||{};
-    await emailjs.send(SC.svc,SC.tpl,{
-      to_email:SC.email,candidate_name:SC.name,session_id:SC.sid,
-      score:rp.scoreStr||'—',duration:fmtMs(rp.elapsed||0),
-      critical:String(crit),warnings:String(warns),status:rp.status||'—',log:rp.rpt||''
-    });
+    emailjs.init(SC.key);const rp=rptPayload||{};
+    await emailjs.send(SC.svc,SC.tpl,{to_email:SC.email,candidate_name:SC.candidateName,session_id:SC.sid,score:rp.scoreStr||'—',duration:fmtMs(rp.elapsed||0),critical:String(crit),warnings:String(warns),status:rp.integrityStatus||'—',log:rp.rpt||''});
     sb.textContent=`✓ Report sent to ${SC.email}`;sb.className='sendbox sent';
   }catch(err){sb.textContent='Email failed: '+(err?.text||err?.message||'check EmailJS config');sb.className='sendbox failed';}
 };
 </script>
-<div id="ss-lightbox"><button id="ss-lightbox-close" onclick="$('ss-lightbox').classList.remove('show')">✕</button><img id="ss-lb-img" src="" alt="Screenshot"/></div>
 </body>
 </html>
